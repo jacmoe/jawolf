@@ -8,7 +8,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
-int main(int argc, char *argv[]) {
+int main() {
   GLFWwindow *window = 0;
 
   /* Initialize the API */
