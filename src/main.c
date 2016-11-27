@@ -18,15 +18,18 @@
 
 #include "app.h"
 
-void window_size_callback(GLFWwindow* window, int width, int height) {
+void window_size_callback(GLFWwindow *window, int width, int height)
+{
   glViewport(0, 0, width, height);
 }
 
-int main() {
+int main()
+{
   GLFWwindow *window = 0;
 
   /* Initialize the API */
-  if (!glfwInit()) {
+  if (!glfwInit())
+  {
     return EXIT_FAILURE;
   }
 
@@ -38,12 +41,13 @@ int main() {
   /* Compute window resolution from the main monitor's */
   {
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    const int width  = mode->width / 2;
+    const int width = mode->width / 2;
     const int height = mode->height / 2;
 
     /* Create the window and OpenGL context */
     window = glfwCreateWindow(width, height, "demo", NULL, NULL);
-    if (!window) {
+    if (!window)
+    {
       fprintf(stderr, "error: failed to create window.\n");
       glfwTerminate();
       return EXIT_FAILURE;
@@ -58,7 +62,8 @@ int main() {
   AppSetup();
 
   /* Mainloop */
-  while (!glfwWindowShouldClose(window)) {
+  while (!glfwWindowShouldClose(window))
+  {
     /* Update and render one frame */
     AppFrame();
 

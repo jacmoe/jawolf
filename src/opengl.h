@@ -22,8 +22,8 @@
 void InitGL();
 void CheckShaderStatus(GLuint shader);
 void CheckProgramStatus(GLuint program);
-void CheckGLError(const char* file, const int line, const char* errMsg, int bExitOnFail);
+void CheckGLError(const char *file, const int line, const char *errMsg, int bExitOnFail);
 
-#define CHECKGLERROR()   CheckGLError(__FILE__, __LINE__, "", 0)
+#define CHECKGLERROR() CheckGLError(__FILE__, __LINE__, "", 0)
 
 #endif

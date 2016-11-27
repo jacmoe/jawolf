@@ -22,10 +22,11 @@
 
 /* ========================================================================== */
 
-#define SHADERS_DIR     "../shaders/"
-#define MAX_BUFFERSIZE  2048
+#define SHADERS_DIR "../shaders/"
+#define MAX_BUFFERSIZE 2048
 
-typedef struct {
+typedef struct
+{
   GLuint computePgm;
   GLuint renderPgm;
   GLuint vao;
@@ -37,13 +38,14 @@ static TGlobal s_Global;
 
 /* ========================================================================== */
 
-static
-int ReadFile(const char* filename, const unsigned int maxsize, char out[]) {
-  FILE* fd = 0;
+static int ReadFile(const char *filename, const unsigned int maxsize, char out[])
+{
+  FILE *fd = 0;
   size_t nelems = 0;
   size_t nreads = 0;
 
-  if (!(fd = fopen(filename, "r"))) {
+  if (!(fd = fopen(filename, "r")))
+  {
     fprintf(stderr, "warning: \"%s\" not found.\n", filename);
     return 0;
   }
@@ -62,20 +64,20 @@ int ReadFile(const char* filename, const unsigned int maxsize, char out[]) {
   return nreads == nelems;
 }
 
-static
-GLuint setupComputeProgram(char *src_buffer) {
+static GLuint setupComputeProgram(char *src_buffer)
+{
   GLuint pgm = 0u;
 
   ReadFile(SHADERS_DIR "cs_simple.glsl", MAX_BUFFERSIZE, src_buffer);
-  pgm = glCreateShaderProgramv(GL_COMPUTE_SHADER, 1, (const char**)&src_buffer);
+  pgm = glCreateShaderProgramv(GL_COMPUTE_SHADER, 1, (const char **)&src_buffer);
 
   CheckProgramStatus(pgm);
 
   return pgm;
 }
 
-static
-GLuint setupRenderProgram(char *src_buffer) {
+static GLuint setupRenderProgram(char *src_buffer)
+{
   GLuint pgm = 0u;
   GLuint vshader = 0u;
   GLuint fshader = 0u;
@@ -83,28 +85,30 @@ GLuint setupRenderProgram(char *src_buffer) {
   /* Vertex Shader */
   vshader = glCreateShader(GL_VERTEX_SHADER);
   ReadFile(SHADERS_DIR "vs_mapscreen.glsl", MAX_BUFFERSIZE, src_buffer);
-  glShaderSource(vshader, 1, (const char**)&src_buffer, (const GLint*)0);
+  glShaderSource(vshader, 1, (const char **)&src_buffer, (const GLint *)0);
   glCompileShader(vshader);
   CheckShaderStatus(vshader);
 
   /* Fragment Shader */
   fshader = glCreateShader(GL_FRAGMENT_SHADER);
   ReadFile(SHADERS_DIR "fs_mapscreen.glsl", MAX_BUFFERSIZE, src_buffer);
-  glShaderSource(fshader, 1, (const char**)&src_buffer, (const GLint*)0);
+  glShaderSource(fshader, 1, (const char **)&src_buffer, (const GLint *)0);
   glCompileShader(fshader);
   CheckShaderStatus(fshader);
 
   pgm = glCreateProgram();
-  glAttachShader(pgm, vshader); glDeleteShader(vshader);
-  glAttachShader(pgm, fshader); glDeleteShader(fshader);
+  glAttachShader(pgm, vshader);
+  glDeleteShader(vshader);
+  glAttachShader(pgm, fshader);
+  glDeleteShader(fshader);
   glLinkProgram(pgm);
   CheckProgramStatus(pgm);
 
   return pgm;
 }
 
-static
-GLuint setupTexture() {
+static GLuint setupTexture()
+{
   GLuint tex = 0;
 
   const unsigned int w = 512u;
@@ -123,12 +127,12 @@ GLuint setupTexture() {
   return tex;
 }
 
-static
-void launchCompute() {
+static void launchCompute()
+{
   glUseProgram(s_Global.computePgm);
 
-  glUniform1f(glGetUniformLocation(s_Global.computePgm, "uTime"), 
-              0.001f*s_Global.tick);
+  glUniform1f(glGetUniformLocation(s_Global.computePgm, "uTime"),
+              0.001f * s_Global.tick);
 
   glBindImageTexture(0, s_Global.texture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
   glDispatchCompute(32, 32, 1);
@@ -136,8 +140,8 @@ void launchCompute() {
   CHECKGLERROR();
 }
 
-static
-void renderScreen() {
+static void renderScreen()
+{
   glClear(GL_COLOR_BUFFER_BIT);
 
   glUseProgram(s_Global.renderPgm);
@@ -148,12 +152,11 @@ void renderScreen() {
   glBindVertexArray(s_Global.vao);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
-
   CHECKGLERROR();
 }
 
-static
-void AppFinalize() {
+static void AppFinalize()
+{
   glDeleteProgram(s_Global.computePgm);
   glDeleteProgram(s_Global.renderPgm);
   glDeleteTextures(1, &s_Global.texture);
@@ -164,21 +167,21 @@ void AppFinalize() {
 
 /* ========================================================================== */
 
-extern
-void AppSetup() {
+extern void AppSetup()
+{
   char *src_buffer = NULL;
 
   /* Initialize OpenGL extensions */
   InitGL();
 
   /* setting some OpenGL properties */
-  glClearColor( 0.25f, 0.25f, 0.25f, 1.0f);
+  glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
   glDisable(GL_DEPTH_TEST);
 
   /* Generate program shaders */
-  src_buffer = (char*)calloc(MAX_BUFFERSIZE, sizeof(char));
+  src_buffer = (char *)calloc(MAX_BUFFERSIZE, sizeof(char));
   s_Global.computePgm = setupComputeProgram(src_buffer);
-  s_Global.renderPgm  = setupRenderProgram(src_buffer);
+  s_Global.renderPgm = setupRenderProgram(src_buffer);
   free(src_buffer);
 
   /* Setup programs' uniform value */
@@ -206,8 +209,8 @@ void AppSetup() {
   CHECKGLERROR();
 }
 
-extern
-void AppFrame() {
+extern void AppFrame()
+{
   /* Update the tick [todo : use frame control] */
   ++s_Global.tick;
 
