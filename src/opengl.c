@@ -20,23 +20,6 @@ int checkExtensions(const char **extensions) {
   return valid;
 }
 
-#ifndef USE_GLEW
-
-static
-GLFWglproc getAddress(const char *name) {
-  GLFWglproc ptr = glfwGetProcAddress(name);
-
-  if (ptr == 0) {
-    fprintf(stderr, "error: Extension function %s not found.\n", name);
-  }
-
-  return ptr;
-}
-
-#include "ext/_extensions.inl"
-
-#endif
-
 /* ========================================================================== */
 
 extern
@@ -52,7 +35,6 @@ void InitGL() {
   /* Check if specific extensions exists */
   checkExtensions(s_extensions);
 
-#ifdef USE_GLEW
   /* Load GLEW */
   glewExperimental = GL_TRUE;
   GLenum result = glewInit();
@@ -63,10 +45,6 @@ void InitGL() {
   if (GLEW_OK != result) {
     fprintf(stderr, "Error: %s\n", glewGetErrorString(result));
   }
-#else
-  /* Load function pointer */
-  LoadExtensionFuncPtrs();
-#endif
 }
 
 void CheckShaderStatus(GLuint shader) {
