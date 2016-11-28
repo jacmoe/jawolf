@@ -89,52 +89,23 @@ static void InitGL()
     }
 }
 
-static char* _load_file(const char* path) {
-	FILE* fp = 0;
-	char* result = 0;
-	long curpos = 0;
-	long l = 0;
-
-	mb_assert(path);
-
-	fp = fopen(path, "rb");
-	if(fp) {
-		curpos = ftell(fp);
-		fseek(fp, 0L, SEEK_END);
-		l = ftell(fp);
-		fseek(fp, curpos, SEEK_SET);
-		result = (char*)malloc((size_t)(l + 1));
-		mb_assert(result);
-		fread(result, 1, l, fp);
-		fclose(fp);
-		result[l] = '\0';
-	}
-
-	return result;
+static void _on_error(struct mb_interpreter_t *s, mb_error_e e, char *m, int p)
+{
+    if (SE_NO_ERR != e)
+    {
+        printf("Error : [POS] %d, [CODE] %d, [MESSAGE] %s\n", p, e, m);
+    }
 }
 
-static void _on_error(struct mb_interpreter_t* s, mb_error_e e, char* m, int p) {
-	if(SE_NO_ERR != e) {
-		printf("Error : [POS] %d, [CODE] %d, [MESSAGE] %s\n", p, e, m);
-	}
-}
-
-static unsigned char _open_script(struct mb_interpreter_t** s) {
-	unsigned char result = 1;
-
-	mb_open(s);
-	mb_set_error_handler(*s, _on_error);
-	_register_apis(*s);
-
-	return result;
-}
-
-static unsigned char _close_script(struct mb_interpreter_t** s) {
-	unsigned char result = 1;
-
-	mb_close(s);
-
-	return result;
+int my_print(const char *fmt, ...)
+{
+    char buf[1024];
+    va_list argptr;
+    va_start(argptr, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, argptr);
+    va_end(argptr);
+    printf(buf);
+    return MB_FUNC_OK;
 }
 
 int main()
@@ -151,15 +122,16 @@ int main()
     }
 
     /* Initialize MyBasic */
-	mb_init();
+    mb_init();
     printf("Running MyBasic %s\n", mb_ver_string());
 
-    struct mb_interpreter_t* bas = 0;
+    struct mb_interpreter_t *bas = 0;
     mb_open(&bas);
-    // do some stuff here
+    mb_set_error_handler(bas, _on_error);
+    mb_set_printer(bas, my_print);
+    mb_load_file(bas, "../test.bas");
+    mb_run(bas);
     mb_close(&bas);
-
-
 
     /* Initialize OpenGL context flags */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -266,7 +238,7 @@ int main()
     }
 
     nk_glfw3_shutdown();
-	mb_dispose();
+    mb_dispose();
     glfwTerminate();
     return EXIT_SUCCESS;
 }
