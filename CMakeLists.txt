@@ -50,12 +50,14 @@ set(TARGET_NAME jawolf)
 file(GLOB Sources ${SRCDIR}/*.c)
 file(GLOB Headers ${SRCDIR}/*.h)
 file(GLOB 3rdParty_Headers ${THIRDPARTY}/*.h)
+file(GLOB 3rdParty_Source ${THIRDPARTY}/*.c)
 file(GLOB Miscs ${SHADERDIR}/*.glsl)
 
 add_executable(${TARGET_NAME}
   ${Sources}
   ${Headers}
   ${3rdParty_Headers}
+  ${3rdParty_Source}
   ${Miscs}
 )
 set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
