@@ -34,7 +34,7 @@ endif()
 
 set(SRCDIR "./src")
 set(SHADERDIR "./shaders")
-#set(THIRDPARTY "./thirdparty")
+set(THIRDPARTY "./src/3rd_party")
 #set(TOOLS "./tools")
 
 
@@ -45,11 +45,13 @@ set(TARGET_NAME jawolf)
 
 file(GLOB Sources ${SRCDIR}/*.c)
 file(GLOB Headers ${SRCDIR}/*.h)
+file(GLOB 3rdParty_Headers ${THIRDPARTY}/*.h)
 file(GLOB Miscs ${SHADERDIR}/*.glsl)
 
 add_executable(${TARGET_NAME}
   ${Sources}
   ${Headers}
+  ${3rdParty_Headers}
   ${Miscs}
 )
 set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
