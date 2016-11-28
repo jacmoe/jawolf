@@ -40,12 +40,54 @@
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
-#include "app.h"
-
 void window_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
+
+static int checkExtensions(const char **extensions)
+{
+    unsigned int i = 0u;
+    int valid = 1;
+
+    for (i = 0u; extensions[i] != NULL; ++i)
+    {
+        if (!glfwExtensionSupported(extensions[i]))
+        {
+            fprintf(stderr, "warning : Extension \"%s\" is not supported.\n", extensions[i]);
+            valid = 0;
+        }
+    }
+    return valid;
+}
+
+/* ========================================================================== */
+
+static void InitGL()
+{
+    /* ~TODO : too app specifics atm */
+    const char *s_extensions[] = {
+        "GL_ARB_compute_shader",
+        "GL_ARB_separate_shader_objects",
+        "GL_ARB_shader_image_load_store",
+        NULL};
+
+    /* Check if specific extensions exists */
+    checkExtensions(s_extensions);
+
+    /* Load GLEW */
+    glewExperimental = GL_TRUE;
+    GLenum result = glewInit();
+
+    /* flush doubtful error */
+    glGetError();
+
+    if (GLEW_OK != result)
+    {
+        fprintf(stderr, "Error: %s\n", glewGetErrorString(result));
+    }
+}
+
 
 int main()
 {
