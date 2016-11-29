@@ -16,4 +16,10 @@
 ```
 
 # jawolf
-Jacob's Wolfenstein experiment - OpenGL, C99 - back to basics
+Jacob's Wolfenstein experiment - OpenGL, C99 ..
+
+Powered by :
+* [GLFW](http://www.glfw.org/) - lightweight OpenGL utility library (Graphics, Window, Input ..)
+* [GLEW](http://glew.sourceforge.net/) - OpenGL extension handling library
+* [Nuklear](https://github.com/vurtun/nuklear) - single-header ANSI C gui library
+* [MY-BASIC](https://github.com/paladin-t/my_basic) - for scripting
