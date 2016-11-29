@@ -164,7 +164,7 @@ int main()
     mb_set_printer(bas, my_print);
     mb_reg_fun(bas, sys);
     mb_reg_fun(bas, newline);
-    mb_load_file(bas, "../test.bas");
+    mb_load_file(bas, "../init.bas");
     mb_run(bas);
     mb_close(&bas);
 
