@@ -15,6 +15,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(jawolf)
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 
 include(CMakeToolsHelpers OPTIONAL)
 
@@ -32,6 +33,7 @@ if(${GLEW_FOUND})
   add_definitions(-DUSE_GLEW)
 endif()
 
+find_package(Criterion REQUIRED)
 
 # Paths
 # -----
@@ -47,7 +49,9 @@ set(THIRDPARTY "./src/3rd_party")
 
 set(TARGET_NAME jawolf)
 
-file(GLOB Sources ${SRCDIR}/*.c)
+set(Sources
+    ${SRCDIR}/main.c
+)
 file(GLOB Headers ${SRCDIR}/*.h)
 file(GLOB 3rdParty_Headers ${THIRDPARTY}/*.h)
 file(GLOB 3rdParty_Source ${THIRDPARTY}/*.c)
@@ -69,6 +73,7 @@ include_directories(
   ${GLFW_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIRS}
   ${GLEW_INCLUDE_DIRS}
+  ${CRITERION_INCLUDE_DIRS}
 )
 
 target_link_libraries(${TARGET_NAME}
@@ -76,3 +81,22 @@ target_link_libraries(${TARGET_NAME}
   ${OPENGL_LIBRARIES}
   ${GLEW_LIBRARIES}
 )
+
+set(TARGET_NAME jawolf-test)
+
+add_executable(${TARGET_NAME}
+  ${SRCDIR}/test.c
+  ${Headers}
+  ${3rdParty_Headers}
+  ${3rdParty_Source}
+  ${Miscs}
+)
+
+target_link_libraries(${TARGET_NAME}
+  ${GLFW_STATIC_LIBRARIES}
+  ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARIES}
+  ${CRITERION_LIBRARIES}
+)
+set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
