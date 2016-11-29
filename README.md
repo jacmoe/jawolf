@@ -23,3 +23,4 @@ Powered by :
 * [GLEW](http://glew.sourceforge.net/) - OpenGL extension handling library
 * [Nuklear](https://github.com/vurtun/nuklear) - single-header ANSI C gui library
 * [MY-BASIC](https://github.com/paladin-t/my_basic) - for scripting
+* [Criterion](https://github.com/Snaipe/Criterion) - testing framework
