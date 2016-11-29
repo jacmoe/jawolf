@@ -108,6 +108,39 @@ int my_print(const char *fmt, ...)
     return MB_FUNC_OK;
 }
 
+static int sys(struct mb_interpreter_t* s, void** l) {
+	int result = MB_FUNC_OK;
+	char* arg = 0;
+
+	mb_assert(s && l);
+
+	mb_check(mb_attempt_open_bracket(s, l));
+
+	mb_check(mb_pop_string(s, l, &arg));
+
+	mb_check(mb_attempt_close_bracket(s, l));
+
+	if(arg)
+		system(arg);
+
+	return result;
+}
+
+
+static int newline(struct mb_interpreter_t* s, void** l) {
+	int result = MB_FUNC_OK;
+
+	mb_assert(s && l);
+
+	mb_check(mb_attempt_func_begin(s, l));
+
+	mb_check(mb_attempt_func_end(s, l));
+
+	putchar('\n');
+
+	return result;
+}
+
 int main()
 {
     GLFWwindow *window = 0;
@@ -129,6 +162,8 @@ int main()
     mb_open(&bas);
     mb_set_error_handler(bas, _on_error);
     mb_set_printer(bas, my_print);
+    mb_reg_fun(bas, sys);
+    mb_reg_fun(bas, newline);
     mb_load_file(bas, "../test.bas");
     mb_run(bas);
     mb_close(&bas);
