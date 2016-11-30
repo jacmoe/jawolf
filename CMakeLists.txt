@@ -51,7 +51,16 @@ set(TARGET_NAME jawolf)
 
 set(Sources
     ${SRCDIR}/main.c
+    ${SRCDIR}/defs.h
+    ${SRCDIR}/dbg.h
+    ${SRCDIR}/buffer.h
+    ${SRCDIR}/buffer.c
+    ${SRCDIR}/color.c
+    ${SRCDIR}/color.h
+    ${SRCDIR}/geometry.h
+    ${SRCDIR}/geometry.c
 )
+
 file(GLOB Headers ${SRCDIR}/*.h)
 file(GLOB 3rdParty_Headers ${THIRDPARTY}/*.h)
 file(GLOB 3rdParty_Source ${THIRDPARTY}/*.c)
