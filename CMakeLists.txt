@@ -35,6 +35,8 @@ endif()
 
 find_package(Criterion REQUIRED)
 
+find_package(ASSIMP REQUIRED)
+
 # Paths
 # -----
 
@@ -83,12 +85,14 @@ include_directories(
   ${OPENGL_INCLUDE_DIRS}
   ${GLEW_INCLUDE_DIRS}
   ${CRITERION_INCLUDE_DIRS}
+  ${ASSIMP_INCLUDE_DIRS}
 )
 
 target_link_libraries(${TARGET_NAME}
   ${GLFW_STATIC_LIBRARIES}
   ${OPENGL_LIBRARIES}
   ${GLEW_LIBRARIES}
+  ${ASSIMP_LIBRARIES}
 )
 
 set(TARGET_NAME jawolf-test)
