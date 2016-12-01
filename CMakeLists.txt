@@ -67,8 +67,6 @@ set(Sources
     ${SRCDIR}/geometry.c
     ${SRCDIR}/system.h
     ${SRCDIR}/system.c
-    ${SRCDIR}/gui.h
-    ${SRCDIR}/gui.c
 )
 
 file(GLOB Headers ${SRCDIR}/*.h)

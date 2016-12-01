@@ -29,7 +29,6 @@
 
 #include "3rd_party/my_basic.h"
 
-#include "gui.h"
 
 void window_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -137,6 +136,7 @@ static void error_callback(int e, const char *d)
 int main()
 {
     GLFWwindow *window = 0;
+    void* ctx = 0;
     glfwSetErrorCallback(error_callback);
     /* Initialize the API */
     if (!glfwInit())
@@ -159,26 +159,24 @@ int main()
     mb_close(&bas);
 
     /* Initialize OpenGL context flags */
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Compute window resolution from the main monitor's */
-    {
-        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        const int width = mode->width / 2;
-        const int height = mode->height / 2;
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    const int width = mode->width / 2;
+    const int height = mode->height / 2;
 
-        /* Create the window and OpenGL context */
-        window = glfwCreateWindow(width, height, "demo", NULL, NULL);
-        if (!window)
-        {
-            fprintf(stderr, "error: failed to create window.\n");
-            glfwTerminate();
-            return EXIT_FAILURE;
-        }
-        glfwSetWindowSizeCallback(window, window_size_callback);
+    /* Create the window and OpenGL context */
+    window = glfwCreateWindow(width, height, "demo", NULL, NULL);
+    if (!window)
+    {
+        fprintf(stderr, "error: failed to create window.\n");
+        glfwTerminate();
+        return EXIT_FAILURE;
     }
+    glfwSetWindowSizeCallback(window, window_size_callback);
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -189,29 +187,23 @@ int main()
     /* setting some OpenGL properties */
     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
 
-    //gui_init(window);
-
 
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
     {
-        int width = 0, height = 0;
+        //int width = 0, height = 0;
 
         /* Manage events */
         glfwPollEvents();
 
-        //gui_frame();
+        //glfwGetFramebufferSize(window, &width, &height);
+        //glViewport(0, 0, width, height);
+        //glClear(GL_COLOR_BUFFER_BIT);
 
-        glfwGetWindowSize(window, &width, &height);
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        //gui_draw();
         glfwSwapBuffers(window);
 
     }
 
-    //gui_shutdown();
     mb_dispose();
     glfwTerminate();
     return EXIT_SUCCESS;
