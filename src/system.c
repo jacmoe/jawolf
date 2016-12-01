@@ -116,9 +116,21 @@ static void InitOpenGL(int width, int height) {
     glBindTexture(GL_TEXTURE_2D, tex);
 }
 
+static void error_callback(int e, const char *d)
+{
+    printf("Error %d: %s\n", e, d);
+}
 
 GLFWwindow *system_window_init(int width, int height) {
+    glfwSetErrorCallback(error_callback);
+
     glfwInit();
+
+    /* Compute window resolution from the main monitor's */
+    //const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    //const int width = mode->width / 2;
+    //const int height = mode->height / 2;
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -135,7 +147,7 @@ GLFWwindow *system_window_init(int width, int height) {
     glewExperimental = GL_TRUE;
     glewInit();
 
-    InitOpenGL(width, height);
+    //InitOpenGL(width, height);
 
     return window;
 }

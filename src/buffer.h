@@ -4,7 +4,7 @@
 #ifndef _BUFFER_
 #define _BUFFER_
 
-#include "dbg.h"
+//#include "dbg.h"
 #include "color.h"
 
 typedef struct Buffer
@@ -35,7 +35,7 @@ static inline void buffer_pixel_set(Buffer *b, int x, int y, uint32_t color)
 #ifndef NDEBUG
     if (!(x >= 0 && x < b->width && y >= 0 && y < b->height))
     {
-        debug("Drawing outside the buffer! (%d, %d)", x, y);
+        //debug("Drawing outside the buffer! (%d, %d)", x, y);
     }
 #endif
 

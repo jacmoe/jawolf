@@ -58,7 +58,6 @@ set(TARGET_NAME jawolf)
 set(Sources
     ${SRCDIR}/main.c
     ${SRCDIR}/defs.h
-    ${SRCDIR}/dbg.h
     ${SRCDIR}/buffer.h
     ${SRCDIR}/buffer.c
     ${SRCDIR}/color.c
@@ -69,6 +68,8 @@ set(Sources
     ${SRCDIR}/system.c
     ${SRCDIR}/gui.h
     ${SRCDIR}/gui.c
+    ${SRCDIR}/script.h
+    ${SRCDIR}/script.c
 )
 
 file(GLOB Headers ${SRCDIR}/*.h)
