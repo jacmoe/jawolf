@@ -65,6 +65,10 @@ set(Sources
     ${SRCDIR}/color.h
     ${SRCDIR}/geometry.h
     ${SRCDIR}/geometry.c
+    ${SRCDIR}/system.h
+    ${SRCDIR}/system.c
+    ${SRCDIR}/gui.h
+    ${SRCDIR}/gui.c
 )
 
 file(GLOB Headers ${SRCDIR}/*.h)
