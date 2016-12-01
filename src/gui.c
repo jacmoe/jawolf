@@ -21,24 +21,23 @@
 #define MAX(a,b) ((a) < (b) ? (b) : (a))
 #define LEN(a) (sizeof(a)/sizeof(a)[0])
 
-struct nk_context *ctx;
 struct nk_color background;
 
-void gui_init(GLFWwindow *window)
+struct nk_context* gui_init(GLFWwindow *window)
 {
 
-    ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
+    return nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
+
+}
+
+void gui_frame(struct nk_context *ctx)
+{
     {
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
         nk_glfw3_font_stash_end();
     }
 
-    background = nk_rgb(28, 48, 62);
-}
-
-void gui_frame(void)
-{
     nk_glfw3_new_frame();
 
     /* GUI */
@@ -84,11 +83,11 @@ void gui_frame(void)
     nk_end(ctx);
 }
 
-void gui_draw()
+void gui_draw(GLFWwindow* window)
 {
-    //int width = 0, height = 0;
+    int width = 0, height = 0;
     /* Draw */
-/*    {
+    {
         float bg[4];
         nk_color_fv(bg, background);
         glfwGetWindowSize(window, &width, &height);
@@ -97,8 +96,8 @@ void gui_draw()
         glClearColor(bg[0], bg[1], bg[2], bg[3]);
 
         nk_glfw3_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
-    }*/
-    nk_glfw3_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
+    }
+    //nk_glfw3_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
 }
 
 void gui_shutdown(void)

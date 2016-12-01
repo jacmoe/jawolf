@@ -31,6 +31,7 @@
 
 #include "gui.h"
 
+
 void window_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -137,6 +138,7 @@ static void error_callback(int e, const char *d)
 int main()
 {
     GLFWwindow *window = 0;
+    //struct nk_context *ctx;
     glfwSetErrorCallback(error_callback);
     /* Initialize the API */
     if (!glfwInit())
@@ -159,26 +161,24 @@ int main()
     mb_close(&bas);
 
     /* Initialize OpenGL context flags */
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Compute window resolution from the main monitor's */
-    {
-        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        const int width = mode->width / 2;
-        const int height = mode->height / 2;
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    const int width = mode->width / 2;
+    const int height = mode->height / 2;
 
-        /* Create the window and OpenGL context */
-        window = glfwCreateWindow(width, height, "demo", NULL, NULL);
-        if (!window)
-        {
-            fprintf(stderr, "error: failed to create window.\n");
-            glfwTerminate();
-            return EXIT_FAILURE;
-        }
-        glfwSetWindowSizeCallback(window, window_size_callback);
+    /* Create the window and OpenGL context */
+    window = glfwCreateWindow(width, height, "Year", NULL, NULL);
+    if (!window)
+    {
+        fprintf(stderr, "error: failed to create window.\n");
+        glfwTerminate();
+        return EXIT_FAILURE;
     }
+    glfwSetWindowSizeCallback(window, window_size_callback);
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -189,7 +189,7 @@ int main()
     /* setting some OpenGL properties */
     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
 
-    //gui_init(window);
+    //ctx = gui_init(window);
 
 
     /* Mainloop */
@@ -200,13 +200,13 @@ int main()
         /* Manage events */
         glfwPollEvents();
 
-        //gui_frame();
+        //gui_frame(ctx);
 
         glfwGetWindowSize(window, &width, &height);
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //gui_draw();
+        //gui_draw(window);
         glfwSwapBuffers(window);
 
     }
