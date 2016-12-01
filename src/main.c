@@ -30,6 +30,7 @@
 #include "gui.h"
 #include "script.h"
 #include "system.h"
+#include "buffer.h"
 
 
 
@@ -39,6 +40,18 @@ int main()
     //struct nk_context *ctx;
 
     window = system_window_init(800, 600);
+
+    Buffer* buffer = buffer_create(800,600);
+    buffer_pixel_set(buffer, 10,10, 0x00FF00);
+    buffer_pixel_set(buffer, 10,11, 0x00FF00);
+    buffer_pixel_set(buffer, 10,12, 0x00FF00);
+    buffer_pixel_set(buffer, 10,13, 0x00FF00);
+    buffer_pixel_set(buffer, 10,14, 0x00FF00);
+    buffer_pixel_set(buffer, 10,15, 0x00FF00);
+    buffer_pixel_set(buffer, 10,16, 0x00FF00);
+    buffer_pixel_set(buffer, 10,17, 0x00FF00);
+    buffer_pixel_set(buffer, 10,18, 0x00FF00);
+    buffer_pixel_set(buffer, 10,19, 0x00FF00);
 
     script();
 
@@ -59,7 +72,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         //gui_draw(window);
-        glfwSwapBuffers(window);
+        //glfwSwapBuffers(window);
+        system_blit(window, buffer);
 
     }
 
