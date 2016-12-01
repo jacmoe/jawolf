@@ -16,7 +16,7 @@
 ```
 
 # jawolf
-Jacob's Wolfenstein experiment - OpenGL, C99 ..
+Jacob's Wolfenstein experiment - OpenGL, C11 ..
 
 Powered by :
 * [GLFW](http://www.glfw.org/) - lightweight OpenGL utility library (Graphics, Window, Input ..)
