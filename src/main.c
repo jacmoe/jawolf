@@ -25,7 +25,7 @@
 #include <GL/glew.h>
 #include "GLFW/glfw3.h"
 
-#include <forge.h>
+#include "forge.h"
 
 #include "gui.h"
 #include "script.h"
