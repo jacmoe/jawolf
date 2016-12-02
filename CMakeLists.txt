@@ -48,7 +48,7 @@ set(THIRDPARTY "./src/3rd_party")
 # -----------------
 
 add_subdirectory(lib/forge)
-
+add_subdirectory(lib/physfs)
 
 # Main target build
 # -----------------
