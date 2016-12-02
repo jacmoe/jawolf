@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "script.h"
 #include <assert.h>
+#include <stdarg.h>
 
 static void _on_error(struct mb_interpreter_t *s, mb_error_e e, char *m, int p)
 {

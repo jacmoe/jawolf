@@ -13,8 +13,9 @@
 #include "3rd_party/nuklear.h"
 #include "3rd_party/nuklear_glfw_gl3.h"
 
-#define MAX_VERTEX_BUFFER 1024 * 1024
-#define MAX_ELEMENT_BUFFER 512 * 1024
+#define MAX_VERTEX_BUFFER 512 * 1024
+#define MAX_ELEMENT_BUFFER 128 * 1024
+
 
 #define UNUSED(a) (void)a
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -23,65 +24,29 @@
 
 struct nk_color background;
 
-void gui_init(GLFWwindow *window, struct nk_context *ctx)
+struct nk_context *gui_init(GLFWwindow *window)
 {
-
-    ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
-}
-
-void gui_fonts_init()
-{
+    struct nk_context* ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
     {
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
         nk_glfw3_font_stash_end();
     }
+    return ctx;
 }
 
 void gui_frame(struct nk_context *ctx)
 {
-        struct nk_font_atlas *atlas;
-        nk_glfw3_font_stash_begin(&atlas);
-        nk_glfw3_font_stash_end();
     nk_glfw3_new_frame();
 
-    if (nk_begin(ctx, "Demo", nk_rect(50, 50, 230, 250),
-                 NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
-                     NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE))
+    if (nk_begin(ctx, "Show", nk_rect(50, 50, 220, 220),
+                 NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_CLOSABLE))
     {
-        enum
-        {
-            EASY,
-            HARD
-        };
-        static int op = EASY;
-        static int property = 20;
+        /* fixed widget pixel width */
         nk_layout_row_static(ctx, 30, 80, 1);
         if (nk_button_label(ctx, "button"))
-            fprintf(stdout, "button pressed\n");
-
-        nk_layout_row_dynamic(ctx, 30, 2);
-        if (nk_option_label(ctx, "easy", op == EASY))
-            op = EASY;
-        if (nk_option_label(ctx, "hard", op == HARD))
-            op = HARD;
-
-        nk_layout_row_dynamic(ctx, 25, 1);
-        nk_property_int(ctx, "Compression:", 0, &property, 100, 10, 1);
-
-        nk_layout_row_dynamic(ctx, 20, 1);
-        nk_label(ctx, "background:", NK_TEXT_LEFT);
-        nk_layout_row_dynamic(ctx, 25, 1);
-        if (nk_combo_begin_color(ctx, background, nk_vec2(nk_widget_width(ctx), 400)))
         {
-            nk_layout_row_dynamic(ctx, 120, 1);
-            background = nk_color_picker(ctx, background, NK_RGBA);
-            nk_layout_row_dynamic(ctx, 25, 1);
-            background.r = (nk_byte)nk_propertyi(ctx, "#R:", 0, background.r, 255, 1, 1);
-            background.g = (nk_byte)nk_propertyi(ctx, "#G:", 0, background.g, 255, 1, 1);
-            background.b = (nk_byte)nk_propertyi(ctx, "#B:", 0, background.b, 255, 1, 1);
-            background.a = (nk_byte)nk_propertyi(ctx, "#A:", 0, background.a, 255, 1, 1);
-            nk_combo_end(ctx);
+            /* event handling */
         }
     }
     nk_end(ctx);

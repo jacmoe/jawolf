@@ -1,0 +1,49 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x0c\x00j\x00a\x00w\x00o\x00l\x00f)
+
+[CMake]
+Build Directory Count=1
+Current Build Directory Index=0
+ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/jacmoe/programming/jawolf/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=file:///usr/local
+
+[Defines And Includes][Compiler]
+Name=GCC
+Path=gcc
+Type=GCC
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=New Compiled Binary Launcher
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+Display Demangle Names=true
+Display Static Members=true
+EnvironmentGroup=
+Executable=file:///home/jacmoe/programming/jawolf/build/jawolf
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+GDB Path=file:///usr/bin/gdb
+Project Target=jawolf,jawolf-test
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=FrameStack
+Use External Terminal=false
+Working Directory=file:///home/jacmoe/programming/jawolf
+isExecutable=true
