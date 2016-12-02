@@ -1,38 +1,27 @@
 #include "gui.h"
 
-#define NK_INCLUDE_FIXED_TYPES
-#define NK_INCLUDE_STANDARD_IO
-#define NK_INCLUDE_STANDARD_VARARGS
-#define NK_INCLUDE_DEFAULT_ALLOCATOR
-#define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
-#define NK_INCLUDE_FONT_BAKING
-#define NK_INCLUDE_DEFAULT_FONT
 #define NK_IMPLEMENTATION
-#define NK_GLFW_GL3_IMPLEMENTATION
-
-#include "3rd_party/nuklear.h"
-#include "3rd_party/nuklear_glfw_gl3.h"
+#define NK_GLFW_GL2_IMPLEMENTATION
 
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
+#include "3rd_party/nuklear.h"
+#include "3rd_party/nuklear_glfw_gl2.h"
 
-#define UNUSED(a) (void)a
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define MAX(a, b) ((a) < (b) ? (b) : (a))
-#define LEN(a) (sizeof(a) / sizeof(a)[0])
-
-struct nk_color background;
 
 struct nk_context *gui_init(GLFWwindow *window)
 {
-    struct nk_context* ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
-    {
+    return nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
+}
+
+void gui_fonts(struct nk_context *ctx)
+{
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
+        struct nk_font *droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
         nk_glfw3_font_stash_end();
-    }
-    return ctx;
+        nk_style_set_font(ctx, &droid->handle);
 }
 
 void gui_frame(struct nk_context *ctx)

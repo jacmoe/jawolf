@@ -72,18 +72,23 @@ set(Sources
     ${SRCDIR}/script.c
 )
 
-file(GLOB Headers ${SRCDIR}/*.h)
-file(GLOB 3rdParty_Headers ${THIRDPARTY}/*.h)
-file(GLOB 3rdParty_Source ${THIRDPARTY}/*.c)
-file(GLOB Miscs ${SHADERDIR}/*.glsl)
+
+set(3rdParty_Headers
+    ${THIRDPARTY}/my_basic.h
+    ${THIRDPARTY}/nuklear.h
+    ${THIRDPARTY}/nuklear_glfw_gl2.h
+)
+
+set(3rdParty_Source
+    ${THIRDPARTY}/my_basic.c
+)
 
 add_executable(${TARGET_NAME}
     ${Sources}
-    ${Headers}
     ${3rdParty_Headers}
     ${3rdParty_Source}
-    ${Miscs}
 )
+
 set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 11) # 90 99 11
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
 

@@ -24,7 +24,7 @@
 int main()
 {
     static GLFWwindow *window;
-    //struct nk_context* ctx;
+    struct nk_context* ctx;
 
     window = system_window_init(800, 600);
 
@@ -46,7 +46,8 @@ int main()
 
     script();
 
-    //ctx = gui_init(window);
+    ctx = gui_init(window);
+    gui_fonts(ctx);
  
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
@@ -54,14 +55,15 @@ int main()
 
         glfwPollEvents();
 
-        //gui_frame(ctx);
-        //gui_draw();
-
-        system_blit(window, buffer);
+        gui_frame(ctx);
+        glClear(GL_COLOR_BUFFER_BIT);
+        gui_draw();
+        glfwSwapBuffers(window);
+        //system_blit(window, buffer);
 
     }
 
-    //gui_shutdown();
+    gui_shutdown();
     mb_dispose();
     glfwTerminate();
 
