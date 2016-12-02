@@ -37,7 +37,7 @@
 int main()
 {
     static GLFWwindow *window;
-    //struct nk_context* ctx = 0;
+    //static struct nk_context ctx;
 
     window = system_window_init(800, 600);
 
@@ -60,9 +60,9 @@ int main()
 
     script();
 
-    //gui_init(window, ctx);
+    //gui_init(window, &ctx);
     //gui_fonts_init();
-
+ 
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
     {
@@ -76,7 +76,7 @@ int main()
         //glViewport(0, 0, width, height);
         //glClear(GL_COLOR_BUFFER_BIT);
 
-        //gui_frame(ctx);
+        //gui_frame(&ctx);
         //gui_draw();
         //glfwSwapBuffers(window);
         system_blit(window, buffer);

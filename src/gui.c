@@ -27,6 +27,10 @@ void gui_init(GLFWwindow *window, struct nk_context *ctx)
 {
 
     ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
+}
+
+void gui_fonts_init()
+{
     {
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
@@ -34,12 +38,11 @@ void gui_init(GLFWwindow *window, struct nk_context *ctx)
     }
 }
 
-void gui_fonts_init()
-{
-}
-
 void gui_frame(struct nk_context *ctx)
 {
+        struct nk_font_atlas *atlas;
+        nk_glfw3_font_stash_begin(&atlas);
+        nk_glfw3_font_stash_end();
     nk_glfw3_new_frame();
 
     if (nk_begin(ctx, "Demo", nk_rect(50, 50, 230, 250),
