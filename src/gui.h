@@ -15,10 +15,10 @@
 
 #include "3rd_party/nuklear.h"
 
-struct nk_context* gui_init(GLFWwindow *window);
-void gui_fonts(struct nk_context *ctx);
-void gui_frame(struct nk_context *ctx);
+void gui_init(GLFWwindow *window);
+void gui_fonts();
+void gui_frame();
 void gui_draw();
-void gui_shutdown(void);
+void gui_shutdown();
 
 #endif /* GUI_H */

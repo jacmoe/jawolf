@@ -1,30 +1,38 @@
 #include "gui.h"
 
 #define NK_IMPLEMENTATION
-#define NK_GLFW_GL2_IMPLEMENTATION
+#define NK_GLFW_GL3_IMPLEMENTATION
 
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
 #include "3rd_party/nuklear.h"
-#include "3rd_party/nuklear_glfw_gl2.h"
+#include "3rd_party/nuklear_glfw_gl3.h"
+
+#define UNUSED(a) (void)a
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#define MAX(a,b) ((a) < (b) ? (b) : (a))
+#define LEN(a) (sizeof(a)/sizeof(a)[0])
 
 
-struct nk_context *gui_init(GLFWwindow *window)
+static struct nk_context *ctx;
+static struct nk_font_atlas *atlas;
+static struct nk_font *droid;
+
+void gui_init(GLFWwindow *window)
 {
-    return nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
+    ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
 }
 
-void gui_fonts(struct nk_context *ctx)
+void gui_fonts()
 {
-        struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
-        struct nk_font *droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
+        droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
         nk_glfw3_font_stash_end();
         nk_style_set_font(ctx, &droid->handle);
 }
 
-void gui_frame(struct nk_context *ctx)
+void gui_frame()
 {
     nk_glfw3_new_frame();
 
@@ -46,7 +54,7 @@ void gui_draw()
     nk_glfw3_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
 }
 
-void gui_shutdown(void)
+void gui_shutdown()
 {
     nk_glfw3_shutdown();
 }

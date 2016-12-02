@@ -76,7 +76,7 @@ set(Sources
 set(3rdParty_Headers
     ${THIRDPARTY}/my_basic.h
     ${THIRDPARTY}/nuklear.h
-    ${THIRDPARTY}/nuklear_glfw_gl2.h
+    ${THIRDPARTY}/nuklear_glfw_gl3.h
 )
 
 set(3rdParty_Source

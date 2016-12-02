@@ -19,12 +19,11 @@
 #include "system.h"
 #include "buffer.h"
 
-
+void init_opengl();
 
 int main()
 {
     static GLFWwindow *window;
-    //struct nk_context* ctx;
 
     window = system_window_init(800, 600);
 
@@ -46,8 +45,8 @@ int main()
 
     script();
 
-    //ctx = gui_init(window);
-    //gui_fonts(ctx);
+    //gui_init(window);
+    //gui_fonts();
  
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
@@ -55,14 +54,21 @@ int main()
 
         glfwPollEvents();
 
-        //gui_frame(ctx);
+        //gui_frame();
         //gui_draw();
-        system_blit(window, buffer);
+        //system_blit(window, buffer);
+        glfwSwapBuffers(window);
 
     }
 
     //gui_shutdown();
     mb_dispose();
     glfwTerminate();
+
+}
+
+void init_opengl()
+{
+
 
 }
