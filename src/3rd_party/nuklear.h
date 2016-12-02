@@ -7189,7 +7189,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
         NK_ASSERT(normals);
         if (!normals) return;
         vtx = (void*)((nk_byte*)list->vertices->memory.ptr + vertex_offset);
-
+        NK_ASSERT(vtx);
         /* add elements */
         for (i = 2; i < points_count; i++) {
             ids[0] = (nk_draw_index)(vtx_inner_idx);

@@ -140,6 +140,7 @@ GLFWwindow *system_window_init(int width, int height) {
     // Create window and OpenGL context
     GLFWwindow *window = glfwCreateWindow(width, height, "engine", NULL, NULL);
     glfwMakeContextCurrent(window);
+    glViewport(0, 0, width, height);
 
     // Disable cursor
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

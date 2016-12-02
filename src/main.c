@@ -36,26 +36,32 @@
 
 int main()
 {
-    GLFWwindow *window = 0;
-    //struct nk_context *ctx;
+    static GLFWwindow *window;
+    //struct nk_context* ctx = 0;
 
     window = system_window_init(800, 600);
 
     Buffer* buffer = buffer_create(800,600);
-    buffer_pixel_set(buffer, 10,10, 0x00FF00);
-    buffer_pixel_set(buffer, 10,11, 0x00FF00);
-    buffer_pixel_set(buffer, 10,12, 0x00FF00);
-    buffer_pixel_set(buffer, 10,13, 0x00FF00);
-    buffer_pixel_set(buffer, 10,14, 0x00FF00);
-    buffer_pixel_set(buffer, 10,15, 0x00FF00);
-    buffer_pixel_set(buffer, 10,16, 0x00FF00);
-    buffer_pixel_set(buffer, 10,17, 0x00FF00);
-    buffer_pixel_set(buffer, 10,18, 0x00FF00);
-    buffer_pixel_set(buffer, 10,19, 0x00FF00);
+    buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,11, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,12, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,13, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,14, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,15, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,16, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,17, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,18, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,19, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,20, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,21, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,22, BUILDRGB(255,255,255));
+    buffer_pixel_set(buffer, 10,23, BUILDRGB(255,255,255));
+
 
     script();
 
-    //ctx = gui_init(window);
+    //gui_init(window, ctx);
+    //gui_fonts_init();
 
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
@@ -65,13 +71,13 @@ int main()
         /* Manage events */
         glfwPollEvents();
 
-        //gui_frame(ctx);
 
         glfwGetWindowSize(window, &width, &height);
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glViewport(0, 0, width, height);
+        //glClear(GL_COLOR_BUFFER_BIT);
 
-        //gui_draw(window);
+        //gui_frame(ctx);
+        //gui_draw();
         //glfwSwapBuffers(window);
         system_blit(window, buffer);
 
