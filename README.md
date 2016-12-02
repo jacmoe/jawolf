@@ -25,3 +25,4 @@ Based on :
 * [MY-BASIC](https://github.com/paladin-t/my_basic) - for scripting
 * [Criterion](https://github.com/Snaipe/Criterion) - testing framework
 * [Forge](http://www.gamepipeline.org/forge.html) - utility library
+* [Physfs](https://icculus.org/physfs/) - filesystem abstraction
