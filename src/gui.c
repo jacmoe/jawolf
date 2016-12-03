@@ -15,9 +15,10 @@
 #define LEN(a) (sizeof(a)/sizeof(a)[0])
 
 
-static struct nk_context *ctx;
-static struct nk_font_atlas *atlas;
-static struct nk_font *droid;
+static struct nk_context *ctx = NULL;
+static struct nk_font_atlas *atlas = NULL;
+static struct nk_font *droid = NULL;
+
 
 void gui_init(GLFWwindow *window)
 {

@@ -19,11 +19,10 @@
 #include "system.h"
 #include "buffer.h"
 
-void init_opengl();
+static GLFWwindow *window = NULL;
 
 int main()
 {
-    static GLFWwindow *window;
 
     window = system_window_init(800, 600);
 
@@ -45,8 +44,8 @@ int main()
 
     script();
 
-    //gui_init(window);
-    //gui_fonts();
+    gui_init(window);
+    gui_fonts();
  
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
@@ -54,21 +53,15 @@ int main()
 
         glfwPollEvents();
 
-        //gui_frame();
-        //gui_draw();
+        gui_frame();
+        gui_draw();
         //system_blit(window, buffer);
         glfwSwapBuffers(window);
 
     }
 
-    //gui_shutdown();
+    gui_shutdown();
     mb_dispose();
     glfwTerminate();
-
-}
-
-void init_opengl()
-{
-
 
 }
