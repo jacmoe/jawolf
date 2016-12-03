@@ -143,7 +143,7 @@ GLFWwindow *system_window_init(int width, int height) {
     glViewport(0, 0, width, height);
 
     // Disable cursor
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     // Init GLEW
     glewExperimental = GL_TRUE;
