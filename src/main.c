@@ -19,8 +19,6 @@
 #include "system.h"
 #include "buffer.h"
 
-void init_opengl();
-
 int main()
 {
     static GLFWwindow *window;
@@ -29,46 +27,21 @@ int main()
 
     Buffer* buffer = buffer_create(800,600);
     buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,11, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,12, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,13, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,14, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,15, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,16, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,17, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,18, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,19, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,20, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,21, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,22, BUILDRGB(255,255,255));
-    buffer_pixel_set(buffer, 10,23, BUILDRGB(255,255,255));
 
     script();
 
-    //gui_init(window);
-    //gui_fonts();
- 
     /* Mainloop */
     while (!glfwWindowShouldClose(window))
     {
 
         glfwPollEvents();
 
-        //gui_frame();
-        //gui_draw();
         //system_blit(window, buffer);
         glfwSwapBuffers(window);
 
     }
 
-    //gui_shutdown();
     mb_dispose();
     glfwTerminate();
-
-}
-
-void init_opengl()
-{
-
 
 }
