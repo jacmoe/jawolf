@@ -25,7 +25,7 @@
 
 static struct nk_context *ctx = NULL;
 static struct nk_font_atlas *atlas = NULL;
-static struct nk_font *droid = NULL;
+//static struct nk_font *droid = NULL;
 
 
 void gui_init(GLFWwindow *window)
@@ -36,9 +36,9 @@ void gui_init(GLFWwindow *window)
 void gui_fonts()
 {
         nk_glfw3_font_stash_begin(&atlas);
-        droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
+        //droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
         nk_glfw3_font_stash_end();
-        nk_style_set_font(ctx, &droid->handle);
+        //nk_style_set_font(ctx, &droid->handle);
 }
 
 void gui_frame()

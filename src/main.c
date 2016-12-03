@@ -12,6 +12,7 @@
 *   Copyright 2016 Jacob Moen
 *
 */
+//#include "gui.h"
 #include "script.h"
 #include "system.h"
 #include "buffer.h"
@@ -27,6 +28,8 @@ int main()
     buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
 
     script();
+    //gui_init(window);
+    //gui_fonts();
 
 
     /* Mainloop */
@@ -35,11 +38,14 @@ int main()
 
         glfwPollEvents();
 
+        //gui_frame();
+        //gui_draw();
         //system_blit(window, buffer);
         glfwSwapBuffers(window);
 
     }
 
+    //gui_shutdown();
     mb_dispose();
     glfwTerminate();
 
