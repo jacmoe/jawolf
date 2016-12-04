@@ -8,7 +8,7 @@
 #define STBI_NO_PSD
 #define STBI_NO_TGA
 
-#include "3rd_party/stb_image.h"
+#include "3rd/stb_image.h"
 
 #include "buffer.h"
 

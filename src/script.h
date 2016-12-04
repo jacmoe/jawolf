@@ -1,7 +1,7 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-#include "3rd_party/my_basic.h"
+#include "3rd/my_basic.h"
 
 void script_init();
 void script_run(char* file);

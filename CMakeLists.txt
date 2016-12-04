@@ -42,7 +42,7 @@ find_package(ASSIMP REQUIRED)
 
 set(SRCDIR "./src")
 set(SHADERDIR "./shaders")
-set(THIRDPARTY "./src/3rd_party")
+set(THIRDPARTY "./src/3rd")
 
 # libs
 # -----------------

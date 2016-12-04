@@ -14,8 +14,8 @@
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
-#include "3rd_party/nuklear.h"
-#include "3rd_party/nuklear_glfw_gl3.h"
+#include "3rd/nuklear.h"
+#include "3rd/nuklear_glfw_gl3.h"
 
 #define UNUSED(a) (void)a
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
