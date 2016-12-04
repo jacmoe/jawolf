@@ -44,6 +44,6 @@ JaWolf is using:
 * [Forge](http://www.gamepipeline.org/forge.html) - utility library
 * [PhysicsFS](https://icculus.org/physfs/) - filesystem abstraction
 * [stb](https://github.com/nothings/stb) - stb_image
-* [tmx](https://github.com/baylej/tmx) - Tiled map loader
+* [tmx](https://github.com/baylej/tmx) - loader for [tiled](http://mapeditor.org/) maps
 
 JaWolf is originally based on [https://github.com/herrecito/engine](https://github.com/herrecito/engine)

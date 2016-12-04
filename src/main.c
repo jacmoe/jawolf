@@ -21,6 +21,7 @@
 #include "script.h"
 #include "system.h"
 #include "buffer.h"
+#include "tmx.h"
 
 int main()
 {

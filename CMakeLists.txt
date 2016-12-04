@@ -106,6 +106,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
 
 include_directories(
     lib/forge
+    lib/physfs/src
+    lib/tmx/src
     ${SRCDIR}
     ${THIRDPARTY}
     ${GLFW_INCLUDE_DIRS}
@@ -118,11 +120,12 @@ include_directories(
 
 target_link_libraries(${TARGET_NAME}
     forge
+    tmx
+    physfs
     ${GLFW_STATIC_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${ASSIMP_LIBRARIES}
-    ${TMX_LIBRARIES}
 )
 
 set(TARGET_NAME jawolf-test)
