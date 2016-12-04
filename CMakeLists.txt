@@ -37,6 +37,11 @@ find_package(Criterion REQUIRED)
 
 find_package(ASSIMP REQUIRED)
 
+find_package(ZLIB REQUIRED)
+
+find_package(LibXml2 REQUIRED)
+
+
 # Paths
 # -----
 
@@ -72,6 +77,8 @@ set(Sources
     ${SRCDIR}/script.c
     ${SRCDIR}/map.h
     ${SRCDIR}/map.c
+    ${SRCDIR}/map_dumper.h
+    ${SRCDIR}/map_dumper.c
     ${SRCDIR}/image_load.h
     ${SRCDIR}/image_load.c
     ${SRCDIR}/draw.h
@@ -115,17 +122,20 @@ include_directories(
     ${GLEW_INCLUDE_DIRS}
     ${CRITERION_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIRS}
-    ${TMX_INCLUDE_DIRS}
+    ${ZLIB_INCLUDE_DIR}
+    ${LIBXML2_INCLUDE_DIR}
 )
 
 target_link_libraries(${TARGET_NAME}
     forge
     tmx
-    physfs
+    physfs-static
     ${GLFW_STATIC_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${ASSIMP_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
 )
 
 set(TARGET_NAME jawolf-test)
@@ -141,9 +151,15 @@ add_executable(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
+    forge
+    tmx
+    physfs
     ${GLFW_STATIC_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
+    ${ASSIMP_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
     ${CRITERION_LIBRARIES}
 )
 set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11

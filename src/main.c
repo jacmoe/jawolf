@@ -21,7 +21,7 @@
 #include "script.h"
 #include "system.h"
 #include "buffer.h"
-#include "tmx.h"
+#include "map_dumper.h"
 
 int main()
 {
@@ -34,6 +34,8 @@ int main()
 
     script_init();
     script_run("assets/scripts/init.bas");
+
+    map_dump("assets/levels/one.tmx");
 
     gui_init(window);
 
