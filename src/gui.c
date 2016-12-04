@@ -25,20 +25,16 @@
 
 struct nk_context *ctx;
 struct nk_font_atlas *atlas;
-//static struct nk_font *droid = NULL;
+//struct nk_font *droid = NULL;
 
 
 void gui_init(GLFWwindow *window)
 {
     ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
-}
-
-void gui_fonts()
-{
-        nk_glfw3_font_stash_begin(&atlas);
-        //droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
-        nk_glfw3_font_stash_end();
-        //nk_style_set_font(ctx, &droid->handle);
+    nk_glfw3_font_stash_begin(&atlas);
+    //droid = nk_font_atlas_add_from_file(atlas, "assets/fonts/DroidSans.ttf", 14, 0);
+    nk_glfw3_font_stash_end();
+    //nk_style_set_font(ctx, &droid->handle);
 }
 
 void gui_frame()

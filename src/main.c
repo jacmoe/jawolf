@@ -31,9 +31,10 @@ int main()
     Buffer* buffer = buffer_create(800,600);
     buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
 
-    //script();
+    script_init();
+    script_run("assets/scripts/init.bas");
+
     gui_init(window);
-    gui_fonts();
 
 
     /* Mainloop */
@@ -51,7 +52,8 @@ int main()
     }
 
     gui_shutdown();
-    //mb_dispose();
+    script_shutdown();
+    buffer_delete(buffer);
     glfwTerminate();
 
 }

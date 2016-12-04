@@ -1,7 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "script.h"
 #include <assert.h>
 #include <stdarg.h>
+
+struct mb_interpreter_t *bas;
+
 
 static void _on_error(struct mb_interpreter_t *s, mb_error_e e, char *m, int p)
 {
@@ -55,20 +59,26 @@ static int newline(struct mb_interpreter_t* s, void** l) {
 	return result;
 }
 
-void script()
+void script_init()
 {
-    /* Initialize MyBasic */
     mb_init();
-    printf("Running MyBasic %s\n", mb_ver_string());
+    printf("Running MY-BASIC %s\n", mb_ver_string());
+}
 
-    struct mb_interpreter_t *bas = 0;
+void script_run(char* file)
+{
     mb_open(&bas);
     mb_set_error_handler(bas, _on_error);
     mb_set_printer(bas, my_print);
     mb_reg_fun(bas, sys);
     mb_reg_fun(bas, newline);
-    mb_load_file(bas, "assets/scripts/init.bas");
+    mb_load_file(bas, file);
     mb_run(bas);
     mb_close(&bas);
+}
 
+void script_shutdown()
+{
+    mb_dispose();
+    printf("Shutting down MY-BASIC\n");
 }
