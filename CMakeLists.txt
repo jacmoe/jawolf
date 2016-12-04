@@ -49,6 +49,7 @@ set(THIRDPARTY "./src/3rd")
 
 add_subdirectory(lib/forge)
 add_subdirectory(lib/physfs)
+add_subdirectory(lib/tmx)
 
 # Main target build
 # -----------------
@@ -112,6 +113,7 @@ include_directories(
     ${GLEW_INCLUDE_DIRS}
     ${CRITERION_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIRS}
+    ${TMX_INCLUDE_DIRS}
 )
 
 target_link_libraries(${TARGET_NAME}
@@ -120,6 +122,7 @@ target_link_libraries(${TARGET_NAME}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${ASSIMP_LIBRARIES}
+    ${TMX_LIBRARIES}
 )
 
 set(TARGET_NAME jawolf-test)
