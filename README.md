@@ -44,3 +44,5 @@ JaWolf is using:
 * [Forge](http://www.gamepipeline.org/forge.html) - utility library
 * [PhysicsFS](https://icculus.org/physfs/) - filesystem abstraction
 * [stb](https://github.com/nothings/stb) - stb_image
+
+JaWolf is originally based on [https://github.com/herrecito/engine](https://github.com/herrecito/engine)
