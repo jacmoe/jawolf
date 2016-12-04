@@ -100,7 +100,7 @@ add_executable(${TARGET_NAME}
     ${3rdParty_Source}
 )
 
-set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 11) # 90 99 11
+set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
 
 include_directories(

@@ -16,7 +16,7 @@
 ```
 
 # jawolf
-Jacob's Wolfenstein experiment - OpenGL, C11 ..
+Jacob's Wolfenstein experiment - OpenGL, C99 ..
 
 ## Prerequisites
 
