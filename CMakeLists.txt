@@ -70,6 +70,14 @@ set(Sources
     ${SRCDIR}/gui.c
     ${SRCDIR}/script.h
     ${SRCDIR}/script.c
+    ${SRCDIR}/map.h
+    ${SRCDIR}/map.c
+    ${SRCDIR}/image_load.h
+    ${SRCDIR}/image_load.c
+    ${SRCDIR}/draw.h
+    ${SRCDIR}/draw.c
+    ${SRCDIR}/sprite.h
+    ${SRCDIR}/sprite.c
 )
 
 
@@ -77,6 +85,7 @@ set(3rdParty_Headers
     ${THIRDPARTY}/my_basic.h
     ${THIRDPARTY}/nuklear.h
     ${THIRDPARTY}/nuklear_glfw_gl3.h
+    ${THIRDPARTY}/stb_image.h
 )
 
 set(3rdParty_Source
