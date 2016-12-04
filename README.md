@@ -35,7 +35,7 @@ Jacob's Wolfenstein experiment - OpenGL, C11 ..
 
 ## Credits
 
-Based on :
+JaWolf is using:
 * [GLFW](http://www.glfw.org/) - lightweight OpenGL utility library (Graphics, Window, Input ..)
 * [GLEW](http://glew.sourceforge.net/) - OpenGL extension handling library
 * [Nuklear](https://github.com/vurtun/nuklear) - single-header ANSI C gui library
@@ -43,3 +43,4 @@ Based on :
 * [Criterion](https://github.com/Snaipe/Criterion) - testing framework
 * [Forge](http://www.gamepipeline.org/forge.html) - utility library
 * [PhysicsFS](https://icculus.org/physfs/) - filesystem abstraction
+* [stb](https://github.com/nothings/stb) - stb_image
