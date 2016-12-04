@@ -56,7 +56,6 @@ add_subdirectory(lib/physfs)
 set(TARGET_NAME jawolf)
 
 set(Sources
-    ${SRCDIR}/main.c
     ${SRCDIR}/defs.h
     ${SRCDIR}/buffer.h
     ${SRCDIR}/buffer.c
@@ -78,6 +77,8 @@ set(Sources
     ${SRCDIR}/draw.c
     ${SRCDIR}/sprite.h
     ${SRCDIR}/sprite.c
+    ${SRCDIR}/collision.h
+    ${SRCDIR}/collision.c
 )
 
 
@@ -93,6 +94,7 @@ set(3rdParty_Source
 )
 
 add_executable(${TARGET_NAME}
+    ${SRCDIR}/main.c
     ${Sources}
     ${3rdParty_Headers}
     ${3rdParty_Source}
@@ -122,12 +124,14 @@ target_link_libraries(${TARGET_NAME}
 
 set(TARGET_NAME jawolf-test)
 
+set(TESTDIR "./test")
+
 add_executable(${TARGET_NAME}
-    ${SRCDIR}/test.c
+    ${TESTDIR}/test.c
+    ${Sources}
     ${Headers}
     ${3rdParty_Headers}
     ${3rdParty_Source}
-    ${Miscs}
 )
 
 target_link_libraries(${TARGET_NAME}
