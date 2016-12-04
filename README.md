@@ -18,6 +18,23 @@
 # jawolf
 Jacob's Wolfenstein experiment - OpenGL, C11 ..
 
+## Prerequisites
+
+### Compilers
+* GCC 4.9+
+* Clang 3.4+
+* MSVC 14+ (Included in Visual Studio 2015 or later)
+
+### Libraries
+* GLFW
+* GLEW
+
+### Tools
+* CMake
+
+
+## Credits
+
 Based on :
 * [GLFW](http://www.glfw.org/) - lightweight OpenGL utility library (Graphics, Window, Input ..)
 * [GLEW](http://glew.sourceforge.net/) - OpenGL extension handling library
