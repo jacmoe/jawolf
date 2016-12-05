@@ -33,6 +33,6 @@ typedef struct Scene {
 
 
 Map *map_load(const char *path);
-
+Map *map_import(const char *path);
 
 #endif
