@@ -87,6 +87,8 @@ set(Sources
     ${SRCDIR}/sprite.c
     ${SRCDIR}/collision.h
     ${SRCDIR}/collision.c
+    ${SRCDIR}/simple.h
+    ${SRCDIR}/simple.c
 )
 
 

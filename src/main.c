@@ -36,7 +36,7 @@ int main()
     script_init();
     script_run("assets/scripts/init.bas");
 
-    map_dump("assets/levels/one.tmx");
+    //map_dump("assets/levels/one.tmx");
 
     map_import("assets/levels/one.tmx");
 
