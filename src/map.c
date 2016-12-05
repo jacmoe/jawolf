@@ -96,8 +96,8 @@ Map *map_import(const char *path)
     }
     fclose(f);
 
-    //return map_load(newfile);
-    return map;
+    return map_load(newfile);
+    //return map;
 }
 
 Map *map_load(const char *path)
