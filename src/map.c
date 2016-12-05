@@ -26,8 +26,20 @@ unsigned int gid_clear_flags(unsigned int gid)
     return gid & TMX_FLIP_BITS_REMOVAL;
 }
 
+char* concat(const char *s1, const char *s2)
+{
+    char *result = malloc(strlen(s1)+strlen(s2)+1);//+1 for the zero-terminator
+    //in real code you would check for errors in malloc here
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
+}
+
 Map *map_import(const char *path)
 {
+    char* newfile = concat(path, ".map");
+    FILE *f = fopen(newfile, "w");
+
     Map *map = map_create_empty();
 
     tmx_map *tmxmap;
@@ -39,6 +51,8 @@ Map *map_import(const char *path)
 
     tmx_image *im;
     unsigned int gid;
+    float scale = 32.0;
+    float grid_width = 32.0;
 
     while (layers)
     {
@@ -54,13 +68,35 @@ Map *map_import(const char *path)
                     {
                         im = tmxmap->tiles[gid]->image;
                         printf("gid %d (%d, %d) %s\n", gid, i, j, im->source);
+                        fprintf(f, "%f %f %f %f\n",
+                                (float)i * scale,
+                                (float)j * scale,
+                                (float)i * scale + grid_width,
+                                (float)j * scale);
+                        fprintf(f, "%f %f %f %f\n",
+                                (float)i * scale + grid_width,
+                                (float)j * scale,
+                                (float)i * scale + grid_width,
+                                (float)j * scale - grid_width);
+                        fprintf(f, "%f %f %f %f\n",
+                                (float)i * scale + grid_width,
+                                (float)j * scale - grid_width,
+                                (float)i * scale,
+                                (float)j * scale - grid_width);
+                        fprintf(f, "%f %f %f %f\n",
+                                (float)i * scale,
+                                (float)j * scale - grid_width,
+                                (float)i * scale,
+                                (float)j * scale);
                     }
                 }
             }
         }
         layers = layers->next;
     }
+    fclose(f);
 
+    //return map_load(newfile);
     return map;
 }
 
