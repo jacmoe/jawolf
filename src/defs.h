@@ -1,3 +1,4 @@
+/*-*- mode: c;-*-*/
 #ifndef _DEFS_
 #define _DEFS_
 

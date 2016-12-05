@@ -1,3 +1,4 @@
+/*-*- mode: c;-*-*/
 #ifndef COLOR_H
 #define COLOR_H
 #include <stdint.h>
