@@ -23,6 +23,7 @@
 #include "buffer.h"
 #include "map_dumper.h"
 #include "map.h"
+//#include "simple.h"
 
 int main()
 {
@@ -31,14 +32,14 @@ int main()
     window = system_window_init(800, 600);
 
     Buffer* buffer = buffer_create(800,600);
-    buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
+    //buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
 
-    script_init();
-    script_run("assets/scripts/init.bas");
+    //script_init();
+    //script_run("assets/scripts/init.bas");
 
     //map_dump("assets/levels/one.tmx");
 
-    map_import("assets/levels/one.tmx");
+    //map_import("assets/levels/one.tmx");
 
     gui_init(window);
 
@@ -58,7 +59,7 @@ int main()
     }
 
     gui_shutdown();
-    script_shutdown();
+    //script_shutdown();
     buffer_delete(buffer);
     glfwTerminate();
 
