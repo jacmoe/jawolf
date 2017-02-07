@@ -23,7 +23,7 @@
 #include "buffer.h"
 #include "map_dumper.h"
 #include "map.h"
-//#include "simple.h"
+#include "simple.h"
 
 int main()
 {
@@ -41,7 +41,7 @@ int main()
 
     //map_import("assets/levels/one.tmx");
 
-    gui_init(window);
+    //gui_init(window);
 
 
     /* Mainloop */
@@ -50,15 +50,16 @@ int main()
 
         glfwPollEvents();
 
-        gui_frame();
+        //gui_frame();
+        render_coloured();
 
         glClear(GL_COLOR_BUFFER_BIT);
-        gui_draw();
+        //gui_draw();
         system_blit(window, buffer);
 
     }
 
-    gui_shutdown();
+    //gui_shutdown();
     //script_shutdown();
     buffer_delete(buffer);
     glfwTerminate();
