@@ -30,8 +30,6 @@ conan_cmake_run(REQUIRES nasl/0.2@jacmoe/testing
                 BASIC_SETUP
                 BUILD missing)
 
-#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-#conan_basic_setup()
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
@@ -51,4 +49,22 @@ include_directories(
     ${GLEW_INCLUDE_DIRS}
 )
 
-add_subdirectory(src)
+set(TARGET_NAME jawolf)
+
+set(Sources
+    src/main.c
+)
+
+add_executable(${TARGET_NAME}
+    ${Sources}
+)
+
+set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
+
+target_link_libraries(${TARGET_NAME}
+    ${CONAN_LIBS}
+    ${GLFW_STATIC_LIBRARIES}
+    ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
+)
