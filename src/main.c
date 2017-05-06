@@ -14,54 +14,86 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <stdint.h>
 
-#include "gui.h"
-#include "script.h"
-#include "system.h"
-#include "buffer.h"
-#include "map_dumper.h"
-#include "map.h"
-#include "simple.h"
+#include "nasl_graphics.h"
+#include "nasl_buffer.h"
+
+static int init(int width, int height);
+static int shutdown();
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 int main()
 {
-    static GLFWwindow *window = NULL;
+    int buffer_width = 320;
+    int buffer_height = 240;
 
-    window = system_window_init(800, 600);
+    init(buffer_width, buffer_height);
 
-    Buffer* buffer = buffer_create(800,600);
-    //buffer_pixel_set(buffer, 10,10, BUILDRGB(255,255,255));
+    // Create main buffer
+    Buffer* buffer = nasl_buffer_create(buffer_width, buffer_height);
+    // Clear main buffer to a blue color
+    nasl_buffer_clear(buffer, BLUE);
 
-    //script_init();
-    //script_run("assets/scripts/init.bas");
+    int pal_offset = (buffer_width / 5) / 2;
+    int pal_width = (buffer_width - (pal_offset * 2)) / 4;
+    int pal_height = (buffer_height - (pal_offset * 2)) / 4;
 
-    //map_dump("assets/levels/one.tmx");
+    // Create a palette buffer
+    Buffer* palette_buffer = nasl_buffer_create(pal_width,pal_height);
 
-    //map_import("assets/levels/one.tmx");
-
-    //gui_init(window);
-
-
-    /* Mainloop */
-    while (!glfwWindowShouldClose(window))
+    // Draw a palette by blitting 16 different palette buffers into the main buffer
+    int col = 0;
+    int row = pal_offset;
+    for(int buf = 0; buf < 16; buf++)
     {
+        nasl_buffer_clear(palette_buffer, c64_palette[buf]);
+        nasl_buffer_blit(buffer, palette_buffer, pal_offset + (pal_width * col), row);
+        col++;
+        if(col % 4 == 0)
+        {
+            col = 0;
+            row += pal_height;
+        }
+    }
+    // Destroy the palette buffer
+    nasl_buffer_destroy(palette_buffer);
 
-        glfwPollEvents();
-
-        //gui_frame();
-        render_coloured();
-
-        glClear(GL_COLOR_BUFFER_BIT);
-        //gui_draw();
-        system_blit(window, buffer);
-
+    // Main loop
+    while(nasl_graphics_running())
+    {
+        // Event polling
+        nasl_graphics_poll_events();
+        // Render the main buffer
+        nasl_graphics_render(buffer);
+        // Swap buffers
+        nasl_graphics_present();
     }
 
-    //gui_shutdown();
-    //script_shutdown();
-    buffer_delete(buffer);
-    glfwTerminate();
+    // Destroy the main buffer
+    nasl_buffer_destroy(buffer);
 
+    shutdown();
+}
+
+static int init(int width, int height)
+{
+    nasl_graphics_init(width, height, "nasl test", 0, 3);
+
+    glfwSetKeyCallback(nasl_graphics_get_window(), key_callback);
+
+    return 1;
+}
+
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+static int shutdown()
+{
+    nasl_graphics_shutdown();
+
+    return 1;
 }

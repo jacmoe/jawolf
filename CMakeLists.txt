@@ -9,19 +9,29 @@
 # 
 #   project : https://github.com/jacmoe/jawolf
 #
-#   Copyright 2016 Jacob Moen
+#   Copyright 2016 - 2017 Jacob Moen
 #
 #
 cmake_minimum_required(VERSION 2.8.12)
 project(jawolf)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-
 include(CMakeToolsHelpers OPTIONAL)
 
+# Download automatically, you can also just copy the conan.cmake file
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+   message(STATUS "Downloading conan.cmake from https://github.com/memsharded/cmake-conan")
+   file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
+                 "${CMAKE_BINARY_DIR}/conan.cmake")
+endif()
 
-# Dependencies
-# ------------
+include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+conan_cmake_run(REQUIRES nasl/0.2@jacmoe/testing
+                BASIC_SETUP
+                BUILD missing)
+
+#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+#conan_basic_setup()
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
@@ -33,136 +43,12 @@ if(${GLEW_FOUND})
   add_definitions(-DUSE_GLEW)
 endif()
 
-find_package(Criterion REQUIRED)
-
-find_package(ASSIMP REQUIRED)
-
-find_package(ZLIB REQUIRED)
-
-find_package(LibXml2 REQUIRED)
-
-
-# Paths
-# -----
-
-set(SRCDIR "./src")
-set(SHADERDIR "./shaders")
-set(THIRDPARTY "./src/3rd")
-
-# libs
-# -----------------
-
-add_subdirectory(lib/forge)
-add_subdirectory(lib/physfs)
-add_subdirectory(lib/tmx)
-
-# Main target build
-# -----------------
-
-set(TARGET_NAME jawolf)
-
-set(Sources
-    ${SRCDIR}/defs.h
-    ${SRCDIR}/buffer.h
-    ${SRCDIR}/buffer.c
-    ${SRCDIR}/color.c
-    ${SRCDIR}/color.h
-    ${SRCDIR}/geometry.h
-    ${SRCDIR}/geometry.c
-    ${SRCDIR}/system.h
-    ${SRCDIR}/system.c
-    ${SRCDIR}/gui.h
-    ${SRCDIR}/gui.c
-    ${SRCDIR}/script.h
-    ${SRCDIR}/script.c
-    ${SRCDIR}/map.h
-    ${SRCDIR}/map.c
-    ${SRCDIR}/map_dumper.h
-    ${SRCDIR}/map_dumper.c
-    ${SRCDIR}/image_load.h
-    ${SRCDIR}/image_load.c
-    ${SRCDIR}/draw.h
-    ${SRCDIR}/draw.c
-    ${SRCDIR}/sprite.h
-    ${SRCDIR}/sprite.c
-    ${SRCDIR}/collision.h
-    ${SRCDIR}/collision.c
-    ${SRCDIR}/simple.h
-    ${SRCDIR}/simple.c
-)
-
-
-set(3rdParty_Headers
-    ${THIRDPARTY}/my_basic.h
-    ${THIRDPARTY}/nuklear.h
-    ${THIRDPARTY}/nuklear_glfw_gl3.h
-    ${THIRDPARTY}/stb_image.h
-)
-
-set(3rdParty_Source
-    ${THIRDPARTY}/my_basic.c
-)
-
-add_executable(${TARGET_NAME}
-    ${SRCDIR}/main.c
-    ${Sources}
-    ${3rdParty_Headers}
-    ${3rdParty_Source}
-)
-
-set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
-
 include_directories(
-    lib/forge
-    lib/physfs/src
-    lib/tmx/src
-    ${SRCDIR}
-    ${THIRDPARTY}
+    ${CONAN_INCLUDE_DIRS_NASL}/include
+    ${CONAN_INCLUDE_DIRS_NASL}/3rd/include
     ${GLFW_INCLUDE_DIRS}
     ${OPENGL_INCLUDE_DIRS}
     ${GLEW_INCLUDE_DIRS}
-    ${CRITERION_INCLUDE_DIRS}
-    ${ASSIMP_INCLUDE_DIRS}
-    ${ZLIB_INCLUDE_DIR}
-    ${LIBXML2_INCLUDE_DIR}
 )
 
-target_link_libraries(${TARGET_NAME}
-    forge
-    tmx
-    physfs-static
-    ${GLFW_STATIC_LIBRARIES}
-    ${OPENGL_LIBRARIES}
-    ${GLEW_LIBRARIES}
-    ${ASSIMP_LIBRARIES}
-    ${ZLIB_LIBRARIES}
-    ${LIBXML2_LIBRARIES}
-)
-
-set(TARGET_NAME jawolf-test)
-
-set(TESTDIR "./test")
-
-add_executable(${TARGET_NAME}
-    ${TESTDIR}/test.c
-    ${Sources}
-    ${Headers}
-    ${3rdParty_Headers}
-    ${3rdParty_Source}
-)
-
-target_link_libraries(${TARGET_NAME}
-    forge
-    tmx
-    physfs
-    ${GLFW_STATIC_LIBRARIES}
-    ${OPENGL_LIBRARIES}
-    ${GLEW_LIBRARIES}
-    ${ASSIMP_LIBRARIES}
-    ${ZLIB_LIBRARIES}
-    ${LIBXML2_LIBRARIES}
-    ${CRITERION_LIBRARIES}
-)
-set_property(TARGET ${TARGET_NAME} PROPERTY C_STANDARD 99) # 90 99 11
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wextra")
+add_subdirectory(src)
