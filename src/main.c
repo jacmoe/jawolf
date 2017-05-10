@@ -9,7 +9,7 @@
 * 
 *   project : https://github.com/jacmoe/jawolf
 *
-*   Copyright 2016 Jacob Moen
+*   Copyright 2016 - 2017 Jacob Moen
 *
 */
 #include <stdio.h>
@@ -32,32 +32,9 @@ int main()
 
     // Create main buffer
     Buffer* buffer = nasl_buffer_create(buffer_width, buffer_height);
+    nasl_buffer_set_mainbuffer(buffer);
     // Clear main buffer to a blue color
     nasl_buffer_clear(buffer, BLUE);
-
-    int pal_offset = (buffer_width / 5) / 2;
-    int pal_width = (buffer_width - (pal_offset * 2)) / 4;
-    int pal_height = (buffer_height - (pal_offset * 2)) / 4;
-
-    // Create a palette buffer
-    Buffer* palette_buffer = nasl_buffer_create(pal_width,pal_height);
-
-    // Draw a palette by blitting 16 different palette buffers into the main buffer
-    int col = 0;
-    int row = pal_offset;
-    for(int buf = 0; buf < 16; buf++)
-    {
-        nasl_buffer_clear(palette_buffer, c64_palette[buf]);
-        nasl_buffer_blit(buffer, palette_buffer, pal_offset + (pal_width * col), row);
-        col++;
-        if(col % 4 == 0)
-        {
-            col = 0;
-            row += pal_height;
-        }
-    }
-    // Destroy the palette buffer
-    nasl_buffer_destroy(palette_buffer);
 
     // Main loop
     while(nasl_graphics_running())
