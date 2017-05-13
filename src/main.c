@@ -34,7 +34,7 @@ int main()
     Buffer* buffer = nasl_buffer_create(buffer_width, buffer_height);
     nasl_buffer_set_mainbuffer(buffer);
     // Clear main buffer to a blue color
-    nasl_buffer_clear(buffer, BLUE);
+    nasl_buffer_clear(buffer, GREY1);
 
     // Main loop
     while(nasl_graphics_running())
