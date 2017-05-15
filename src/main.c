@@ -18,6 +18,7 @@
 
 #include "nasl_graphics.h"
 #include "nasl_buffer.h"
+#include "nasl_sprite.h"
 
 static int init(int width, int height);
 static int shutdown();
@@ -35,6 +36,26 @@ int main()
     nasl_buffer_set_mainbuffer(buffer);
     // Clear main buffer to a blue color
     nasl_buffer_clear(buffer, GREY1);
+
+    SpriteSheet textures = nasl_sprite_load("assets/textures/sjswalls2.bmp", 4, 3);
+
+    Buffer* image = nasl_sprite_get(textures, 0, 0);
+    nasl_buffer_blit(buffer, image, 10, 10);
+
+    image = nasl_sprite_get(textures, 0, 1);
+    nasl_buffer_blit(buffer, image, 15, 60);
+    
+    image = nasl_sprite_get(textures, 0, 2);
+    nasl_buffer_blit(buffer, image, 100, 80);
+
+    image = nasl_sprite_get(textures, 1, 0);
+    nasl_buffer_blit(buffer, image, 10, 10);
+
+    image = nasl_sprite_get(textures, 1, 1);
+    nasl_buffer_blit(buffer, image, 15, 60);
+    
+    image = nasl_sprite_get(textures, 3, 2);
+    nasl_buffer_blit(buffer, image, 100, 80);
 
     // Main loop
     while(nasl_graphics_running())
@@ -55,7 +76,7 @@ int main()
 
 static int init(int width, int height)
 {
-    nasl_graphics_init(width, height, "nasl test", 0, 3);
+    nasl_graphics_init(width, height, "Jawolf 0.4", 0, 3);
 
     glfwSetKeyCallback(nasl_graphics_get_window(), key_callback);
 

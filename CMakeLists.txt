@@ -42,6 +42,7 @@ if(${GLEW_FOUND})
 endif()
 
 include_directories(
+    src
     ${CONAN_INCLUDE_DIRS_NASL}/include
     ${CONAN_INCLUDE_DIRS_NASL}/3rd/include
     ${GLFW_INCLUDE_DIRS}
@@ -52,6 +53,16 @@ include_directories(
 set(TARGET_NAME jawolf)
 
 set(Sources
+    src/actions.c
+    src/actions.h
+    src/collision.c
+    src/collision.h
+    src/game.c
+    src/game.h
+    src/input.c
+    src/input.h
+    src/map.c
+    src/map.h
     src/main.c
 )
 
