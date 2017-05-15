@@ -10,7 +10,7 @@
 * 
 *   project : https://github.com/jacmoe/jawolf
 *
-*   Copyright 2016 Jacob Moen
+*   Copyright 2016 - 2017 Jacob Moen
 *
 */
 ```
