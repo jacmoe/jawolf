@@ -11,9 +11,9 @@ Map *CreateEmptyMap() {
 
     map->walls = NULL;
     map->numwalls = 0;
-    map->floortex = nasl_image_load("floor.png");
-    map->ceiltex = nasl_image_load("ceil.png");
-    map->walltex = nasl_image_load("wall.png");
+    map->floortex = nasl_image_load("assets/textures/floor.png");
+    map->ceiltex = nasl_image_load("assets/textures/ceil.png");
+    map->walltex = nasl_image_load("assets/textures/wall.png");
 
     return map;
 }

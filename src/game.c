@@ -21,7 +21,7 @@ void InitGame()
     game.player.forward = (Vector){1, 0};
     game.player.radius = 8;
 
-    game.map = M_Load("level.map");
+    game.map = M_Load("assets/levels/level.map");
     game.keymap = GetDefaultKeyMap();
 }
 
