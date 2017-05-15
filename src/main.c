@@ -20,8 +20,8 @@ int main() {
 
     while (!glfwWindowShouldClose(game.window)) {
 
-        //Scene scene = GetScene();
-        //DrawPOV(&scene, game.buffer);
+        Scene scene = GetScene();
+        DrawPOV(&scene, game.buffer);
         ProcessInput();
         nasl_graphics_render(game.buffer);
 

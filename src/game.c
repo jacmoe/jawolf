@@ -12,8 +12,12 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
+#include <math.h>
+#include <float.h>
+
 #include "map.h"
 #include "nasl_graphics.h"
+#include "nasl_defs.h"
 
 #include "actions.h"
 #include "game.h"
@@ -52,6 +56,102 @@ Scene GetScene()
 
     return scene;
 }
+
+
+#define FOV DEG2RAD(75)                          // Horizontal Field of View
+#define NEAR 1                                   // Near clip plane distance
+#define FAR 300                                  // Used to dim light
+#define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
+#define WALLHEIGHT 64
+#define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
+
+uint32_t DrawPOV(Scene *sce, Buffer *buf)
+{
+    uint32_t start = 1000 * glfwGetTime();//S_GetTime();
+
+    for (int x = 0; x < buf->width; x++) {
+        double viewplane_distance = VIEW(buf->width);
+        double ray_angle = atan2((x + 0.5) - (buf->width / 2), viewplane_distance);
+        double ray_cos = cos(ray_angle);
+        double viewcos = viewplane_distance / ray_cos;
+        double nearcos = NEAR / ray_cos;
+
+        Line ray = {
+            .start = sce->pov->pos,
+            .dir = G_Rotate(sce->pov->forward, ray_angle)
+        };
+
+        // Iterate over all the walls and use the one that's hit
+        // closest to the pov.
+        Wall *wall = NULL;
+        double distance = DBL_MAX;
+        Vector hit;
+
+        for (int i = 0; i < sce->map->numwalls; i++) {
+            Wall *w = &sce->map->walls[i];
+            Vector h;
+            if (G_SegmentRayIntersection(w->seg, ray, &h)) {
+                double d = G_Distance(h, sce->pov->pos);
+                if (d < distance && d > nearcos) {
+                    wall = w;
+                    distance = d;
+                    hit = h;
+                }
+            }
+        }
+
+        // Wall
+        int col_height = 0;
+        if (wall) {
+            col_height = viewcos * WALLHEIGHT / distance;
+            // Everything is *much* easier if col_height is even.
+            if (col_height & 1) col_height++;
+
+            int top = (buf->height - col_height) / 2;
+
+            int texel_x = MOD((int)G_Distance(wall->seg.start, hit), sce->map->walltex->width);
+            for (int i = 0; i < col_height; i++) {
+                int y = top + i;
+                if (y < 0 || y >= buf->height) continue;
+
+                int texel_y = WALLHEIGHT * i / col_height;
+                uint32_t c = sce->map->walltex->pixels[texel_y * sce->map->walltex->width + texel_x];
+                if (distance > FAR) {
+                    c = nasl_color_scale(c, FAR / distance);
+                }
+
+                nasl_buffer_set_pixel(buf, x, y, c);
+            }
+        }
+
+        // Floor & ceiling
+        for (int h = (buf->height - col_height) / 2; h > 0; h--) {
+            double texel_distance = (POVHEIGHT * viewcos) / ((buf->height / 2) - h);
+            Vector texel_world_pos = G_Sum(sce->pov->pos, G_Scale(texel_distance, ray.dir));
+
+            int texel_x = MOD((int)texel_world_pos.x, sce->map->floortex->width);
+            int texel_y = MOD((int)texel_world_pos.y, sce->map->floortex->height);
+
+            uint32_t color = sce->map->floortex->pixels[texel_y * sce->map->floortex->width + texel_x];
+            if (texel_distance > FAR) {
+                color = nasl_color_scale(color, FAR / texel_distance);
+            }
+            nasl_buffer_set_pixel(buf, x, buf->height - h, color);
+
+            texel_x = MOD((int)texel_world_pos.x, sce->map->ceiltex->width);
+            texel_y = MOD((int)texel_world_pos.y, sce->map->ceiltex->height);
+
+            color = sce->map->ceiltex->pixels[texel_y * sce->map->ceiltex->width + texel_x];
+            if (texel_distance > FAR) {
+                color = nasl_color_scale(color, FAR / texel_distance);
+            }
+            nasl_buffer_set_pixel(buf, x, h - 1, color);
+        }
+    }
+
+    return 1000 * glfwGetTime() - start;//S_GetTime() - start;
+}
+
 
 #define SPEED 3
 

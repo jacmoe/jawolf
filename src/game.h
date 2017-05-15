@@ -56,6 +56,7 @@ extern Game game;
 
 void InitGame();
 void EndGame();
+uint32_t DrawPOV(Scene *sce, Buffer *buf);
 Scene GetScene();
 Command BuildCommand();
 void RunCommand(Command cmd);
