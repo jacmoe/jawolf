@@ -17,6 +17,8 @@
 
 #include "nasl_buffer.h"
 #include "nasl_geometry.h"
+#include "nasl_sprite.h"
+
 
 // Represents anything that can move.
 // It has a size, represented by the radius of a surrounding circle.
@@ -29,24 +31,26 @@ typedef struct Mobile {
 
 typedef struct {
     Segment seg;
+    int tex_idx;
+    int id;
 } Wall;
 
 typedef struct Map {
-    Wall *walls;
+    Wall* walls;
     int numwalls;
 
-    Buffer *floortex;
-    Buffer *ceiltex;
-    Buffer *walltex;
+    int floortex;
+    int ceiltex;
+    SpriteSheet textures;
 } Map;
 
 typedef struct Scene {
-    Mobile *pov;
-    Map *map;
+    Mobile* pov;
+    Map* map;
 } Scene;
 
 
-Map *M_Load(const char *path);
+Map* M_Load(const char *path);
 
 
 #endif

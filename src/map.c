@@ -25,9 +25,9 @@ Map *CreateEmptyMap() {
 
     map->walls = NULL;
     map->numwalls = 0;
-    map->floortex = nasl_image_load("assets/textures/floor.png");
-    map->ceiltex = nasl_image_load("assets/textures/ceil.png");
-    map->walltex = nasl_image_load("assets/textures/wall.png");
+    map->floortex = 10;
+    map->ceiltex = 5;
+    map->textures = nasl_sprite_load("assets/textures/sjswalls2.bmp", 4, 3);
 
     return map;
 }
@@ -45,7 +45,7 @@ Map *M_Load(const char *path) {
             i++)
     {
         map->walls = realloc(map->walls, ++(map->numwalls) * sizeof(Wall));
-        map->walls[i] = (Wall){ .seg = seg };
+        map->walls[i] = (Wall){ .seg = seg, .id = i };
     }
 
     fclose(f);

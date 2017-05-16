@@ -29,7 +29,7 @@ Game game;
 
 #define FOV DEG2RAD(75)                          // Horizontal Field of View
 #define NEAR 1                                   // Near clip plane distance
-#define FAR 50                                  // Used to dim light
+#define FAR 300                                  // Used to dim light
 #define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
 #define WALLHEIGHT 64
 #define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
@@ -67,6 +67,13 @@ Scene GetScene()
     return scene;
 }
 
+static Buffer *get_texture(SpriteSheet textures, int idx)
+{
+    int col = idx % textures.cols;
+    int row = idx / textures.cols;
+    return nasl_sprite_get(textures, row, col);
+}
+
 uint32_t DrawPOV(Scene *sce, Buffer *buf)
 {
     uint32_t start = 1000 * glfwGetTime();//S_GetTime();
@@ -89,7 +96,8 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
         double distance = DBL_MAX;
         Vector hit;
 
-        for (int i = 0; i < sce->map->numwalls; i++) {
+        for (int i = 0; i < sce->map->numwalls; i++)
+        {
             Wall *w = &sce->map->walls[i];
             Vector h;
             if (G_SegmentRayIntersection(w->seg, ray, &h)) {
@@ -111,13 +119,15 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
 
             int top = (buf->height - col_height) / 2;
 
-            int texel_x = MOD((int)G_Distance(wall->seg.start, hit), sce->map->walltex->width);
+            Buffer* texture = get_texture(sce->map->textures, wall->id % 12);
+
+            int texel_x = MOD((int)G_Distance(wall->seg.start, hit), texture->width);
             for (int i = 0; i < col_height; i++) {
                 int y = top + i;
                 if (y < 0 || y >= buf->height) continue;
 
                 int texel_y = WALLHEIGHT * i / col_height;
-                uint32_t color = sce->map->walltex->pixels[texel_y * sce->map->walltex->width + texel_x];
+                uint32_t color = texture->pixels[texel_y * texture->width + texel_x];
                 if (distance > FAR) {
                     color = nasl_color_scale(color, FAR / distance);
                 }
@@ -131,19 +141,23 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
             double texel_distance = (POVHEIGHT * viewcos) / ((buf->height / 2) - h);
             Vector texel_world_pos = G_Sum(sce->pov->pos, G_Scale(texel_distance, ray.dir));
 
-            int texel_x = MOD((int)texel_world_pos.x, sce->map->floortex->width);
-            int texel_y = MOD((int)texel_world_pos.y, sce->map->floortex->height);
+            Buffer* floor_texture = get_texture(sce->map->textures, sce->map->floortex);
 
-            uint32_t color = sce->map->floortex->pixels[texel_y * sce->map->floortex->width + texel_x];
+            int texel_x = MOD((int)texel_world_pos.x, floor_texture->width);
+            int texel_y = MOD((int)texel_world_pos.y, floor_texture->height);
+
+            uint32_t color = floor_texture->pixels[texel_y * floor_texture->width + texel_x];
             if (texel_distance > FAR) {
                 color = nasl_color_scale(color, FAR / texel_distance);
             }
             nasl_buffer_set_pixel(buf, x, buf->height - h, color);
 
-            texel_x = MOD((int)texel_world_pos.x, sce->map->ceiltex->width);
-            texel_y = MOD((int)texel_world_pos.y, sce->map->ceiltex->height);
+            Buffer* ceil_texture = get_texture(sce->map->textures, sce->map->ceiltex);
 
-            color = sce->map->ceiltex->pixels[texel_y * sce->map->ceiltex->width + texel_x];
+            texel_x = MOD((int)texel_world_pos.x, ceil_texture->width);
+            texel_y = MOD((int)texel_world_pos.y, ceil_texture->height);
+
+            color = ceil_texture->pixels[texel_y * ceil_texture->width + texel_x];
             if (texel_distance > FAR) {
                 color = nasl_color_scale(color, FAR / texel_distance);
             }
