@@ -12,8 +12,8 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#ifndef _INPUT_
-#define _INPUT_
+#ifndef JAWOLF_INPUT_H
+#define JAWOLF_INPUT_H
 
 #include <stdint.h>
 
@@ -40,12 +40,12 @@ typedef struct KeyBind
 typedef struct KeyMap
 {
     int numbinds;
-    KeyBind *binds;
+    KeyBind* binds;
 } KeyMap;
 
 void PostEvent(KeyEvent kev);
 uint32_t ProcessInput();
 
-void KeyCB(GLFWwindow *window, int key, int scancode, int action, int mods);
+void KeyCB(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-#endif
+#endif // JAWOLF_INPUT_H

@@ -12,11 +12,11 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#ifndef _ACTIONS_
-#define _ACTIONS_
+#ifndef JAWOLF_ACTIONS_H
+#define JAWOLF_ACTIONS_H
 
 #include "input.h"
 
 KeyMap *GetDefaultKeyMap();
 
-#endif
+#endif // JAWOLF_ACTIONS_H

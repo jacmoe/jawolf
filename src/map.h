@@ -12,8 +12,8 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#ifndef _MAP_
-#define _MAP_
+#ifndef JAWOLF_MAP_H
+#define JAWOLF_MAP_H
 
 #include "nasl_buffer.h"
 #include "nasl_geometry.h"
@@ -50,7 +50,7 @@ typedef struct Scene {
 } Scene;
 
 
-Map* M_Load(const char *path);
+Map* M_Load(const char* path);
 
 
-#endif
+#endif // JAWOLF_MAP_H

@@ -15,8 +15,8 @@
 //------------------------------------------------------------------------------
 // Collision detection and response
 //------------------------------------------------------------------------------
-#ifndef _COLLISION_
-#define _COLLISION_
+#ifndef JAWOLF_COLLISION_H
+#define JAWOLF_COLLISION_H
 
 #include "map.h"
 #include "nasl_geometry.h"
@@ -42,4 +42,4 @@ Mobile Co_Move(Map *map, Mobile mob);
 // Returns 0 otherwise.
 int Co_CheckCollision(Map *map, Mobile mob, Collision *collision);
 
-#endif
+#endif // JAWOLF_COLLISION_H

@@ -12,8 +12,8 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#ifndef _GAME_
-#define _GAME_
+#ifndef JAWOLF_GAME_H
+#define JAWOLF_GAME_H
 
 
 #include "nasl_buffer.h"
@@ -34,14 +34,14 @@ typedef struct Command
 // Contains all the game global state
 typedef struct Game
 {
-    GLFWwindow *window;
-    Buffer *buffer;
+    GLFWwindow* window;
+    Buffer* buffer;
 
-    Map *map;      // Current Map
+    Map* map;      // Current Map
     Mobile player; // Player
 
     // --- Input ---
-    KeyMap *keymap; // Current KeyMap
+    KeyMap* keymap; // Current KeyMap
 
     int forward;
     int backward;
@@ -56,9 +56,9 @@ extern Game game;
 
 void InitGame();
 void EndGame();
-uint32_t DrawPOV(Scene *sce, Buffer *buf);
+uint32_t DrawPOV(Scene* sce, Buffer* buf);
 Scene GetScene();
 Command BuildCommand();
 void RunCommand(Command cmd);
 
-#endif
+#endif // JAWOLF_GAME_H
