@@ -119,7 +119,7 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
 
             int top = (buf->height - col_height) / 2;
 
-            Buffer* texture = get_texture(sce->map->textures, wall->id % 12);
+            Buffer* texture = get_texture(sce->map->textures, wall->id % 12); // for now, cycle through textures for each wall
 
             int texel_x = MOD((int)G_Distance(wall->seg.start, hit), texture->width);
             for (int i = 0; i < col_height; i++) {
