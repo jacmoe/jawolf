@@ -24,13 +24,23 @@
 
 Game game;
 
-#define WIDTH 640
-#define HEIGHT 400
+#define WIDTH 320
+#define HEIGHT 240
+
+#define FOV DEG2RAD(75)                          // Horizontal Field of View
+#define NEAR 1                                   // Near clip plane distance
+#define FAR 50                                  // Used to dim light
+#define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
+#define WALLHEIGHT 64
+#define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
+
+#define SPEED 6
 
 void InitGame()
 {
-    nasl_graphics_init(WIDTH, HEIGHT, "Jawolf test", 0, 1);
+    nasl_graphics_init(WIDTH, HEIGHT, "Jawolf test", 0, 3);
     game.window = nasl_graphics_get_window();
+    glfwSwapInterval(1);
     glfwSetKeyCallback(game.window, KeyCB);
     game.buffer = nasl_buffer_create(WIDTH, HEIGHT);
 
@@ -56,14 +66,6 @@ Scene GetScene()
 
     return scene;
 }
-
-
-#define FOV DEG2RAD(75)                          // Horizontal Field of View
-#define NEAR 1                                   // Near clip plane distance
-#define FAR 300                                  // Used to dim light
-#define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
-#define WALLHEIGHT 64
-#define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
 
 uint32_t DrawPOV(Scene *sce, Buffer *buf)
 {
@@ -115,12 +117,12 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
                 if (y < 0 || y >= buf->height) continue;
 
                 int texel_y = WALLHEIGHT * i / col_height;
-                uint32_t c = sce->map->walltex->pixels[texel_y * sce->map->walltex->width + texel_x];
+                uint32_t color = sce->map->walltex->pixels[texel_y * sce->map->walltex->width + texel_x];
                 if (distance > FAR) {
-                    c = nasl_color_scale(c, FAR / distance);
+                    color = nasl_color_scale(color, FAR / distance);
                 }
 
-                nasl_buffer_set_pixel(buf, x, y, c);
+                nasl_buffer_set_pixel(buf, x, y, color);
             }
         }
 
@@ -153,8 +155,6 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
 }
 
 
-#define SPEED 3
-
 Command BuildCommand()
 {
     Command cmd;
@@ -165,11 +165,11 @@ Command BuildCommand()
     }
     else if (game.turn_left)
     {
-        cmd.turn = -0.1;
+        cmd.turn = -0.05;
     }
     else if (game.turn_right)
     {
-        cmd.turn = 0.1;
+        cmd.turn = 0.05;
     }
     else
     {
