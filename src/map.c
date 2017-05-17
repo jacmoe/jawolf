@@ -62,7 +62,7 @@ Map* M_Import(const char* path)
     int j, i, pos, map_width, map_height = 0;
     char map_code;
 
-    map_width = map_height = 16;
+    map_width = map_height = 32;
     char* map_in = calloc(map_width * map_height,sizeof(char));
     for(i = 0; i < map_width * map_height; i++)      // read in the map file
         fscanf(f, "%x", &(map_in[i]));
