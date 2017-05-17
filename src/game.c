@@ -29,7 +29,7 @@ Game game;
 
 #define FOV DEG2RAD(75)                          // Horizontal Field of View
 #define NEAR 1                                   // Near clip plane distance
-#define FAR 300                                  // Used to dim light
+#define FAR 80                                  // Used to dim light
 #define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
 #define WALLHEIGHT 64
 #define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
@@ -44,12 +44,13 @@ void InitGame()
     glfwSetKeyCallback(game.window, KeyCB);
     game.buffer = nasl_buffer_create(WIDTH, HEIGHT);
 
-    game.player.pos = (Vector){0, 0};
     game.player.vel = (Vector){0, 0};
     game.player.forward = (Vector){1, 0};
     game.player.radius = 8;
 
-    game.map = M_Load("assets/levels/level.map");
+    //game.map = M_Load("assets/levels/level.map");
+    game.map = M_Import("assets/levels/text.map");
+    game.player.pos = (Vector){game.map->player_x, game.map->player_y};
     game.keymap = GetDefaultKeyMap();
 }
 
@@ -119,7 +120,7 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
 
             int top = (buf->height - col_height) / 2;
 
-            Buffer* texture = get_texture(sce->map->textures, wall->id % 12); // for now, cycle through textures for each wall
+            Buffer* texture = get_texture(sce->map->textures, wall->tex_idx);
 
             int texel_x = MOD((int)G_Distance(wall->seg.start, hit), texture->width);
             for (int i = 0; i < col_height; i++) {

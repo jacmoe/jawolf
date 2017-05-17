@@ -52,3 +52,83 @@ Map *M_Load(const char *path) {
 
     return map;
 }
+
+Map* M_Import(const char* path)
+{
+    FILE *f = fopen(path, "rt");
+
+    Map* map = CreateEmptyMap();
+
+    int j, i, pos, map_width, map_height = 0;
+    char map_code;
+
+    map_width = map_height = 16;
+    char* map_in = calloc(map_width * map_height,sizeof(char));
+    for(i = 0; i < map_width * map_height; i++)      // read in the map file
+        fscanf(f, "%x", &(map_in[i]));
+    fclose(f);
+
+    float x_pos, y_pos = 0;
+    float scale = 64.0;
+    float grid_width = 64.0;
+
+    int wall_count = 0;
+
+    for(i = 0;i < map_height; i++)
+    {
+        for(j = 0;j < map_width; j++)
+        {
+            pos = (i * map_width) + j;
+            map_code = map_in[pos];
+            if(map_code == -1)
+            {
+                map->player_x = (pos % map_width) * scale;
+                map->player_y = (pos / map_height) * scale;
+                map_code = 0;
+            }
+            if(map_code)
+            {
+                //printf("%f,%f\n", (pos % map_width) * scale, (pos / map_height) * scale);
+                x_pos = pos % map_width;
+                y_pos = pos / map_height;
+    
+                Segment seg;
+
+                seg.start.x = x_pos * scale;
+                seg.start.y = y_pos * scale;
+                seg.end.x   = x_pos * scale + grid_width;
+                seg.end.y   = y_pos * scale;
+                map->walls = realloc(map->walls, ++(map->numwalls) * sizeof(Wall));
+                map->walls[wall_count] = (Wall){ .seg = seg, .tex_idx = map_code - 1, .id = wall_count };
+                wall_count++;
+
+                seg.start.x = x_pos * scale + grid_width;
+                seg.start.y = y_pos * scale;
+                seg.end.x   = x_pos * scale + grid_width;
+                seg.end.y   = y_pos * scale - grid_width;
+                map->walls = realloc(map->walls, ++(map->numwalls) * sizeof(Wall));
+                map->walls[wall_count] = (Wall){ .seg = seg, .tex_idx = map_code - 1, .id = wall_count };
+                wall_count++;
+
+                seg.start.x = x_pos * scale + grid_width;
+                seg.start.y = y_pos * scale - grid_width;
+                seg.end.x   = x_pos * scale;
+                seg.end.y   = y_pos * scale - grid_width;
+                map->walls = realloc(map->walls, ++(map->numwalls) * sizeof(Wall));
+                map->walls[wall_count] = (Wall){ .seg = seg, .tex_idx = map_code - 1, .id = wall_count };
+                wall_count++;
+
+                seg.start.x = x_pos * scale;
+                seg.start.y = y_pos * scale - grid_width;
+                seg.end.x   = x_pos * scale;
+                seg.end.y   = y_pos * scale;
+                map->walls = realloc(map->walls, ++(map->numwalls) * sizeof(Wall));
+                map->walls[wall_count] = (Wall){ .seg = seg, .tex_idx = map_code - 1, .id = wall_count };
+                wall_count++;
+            }
+        }
+    }
+    free(map_in);
+
+    return map;
+}

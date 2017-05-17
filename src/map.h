@@ -41,6 +41,10 @@ typedef struct Map {
 
     int floortex;
     int ceiltex;
+
+    int player_x;
+    int player_y;
+
     SpriteSheet textures;
 } Map;
 
@@ -51,6 +55,7 @@ typedef struct Scene {
 
 
 Map* M_Load(const char* path);
+Map* M_Import(const char* path);
 
 
 #endif // JAWOLF_MAP_H
