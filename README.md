@@ -20,7 +20,11 @@ Jacob's Wolfenstein experiment - OpenGL, C99 ..
 
 ![Segment Debugging][segdebug]
 
-JaWolf is originally based on [https://github.com/herrecito/engine](https://github.com/herrecito/engine)
+JaWolf is originally based on [Herrecito's 2.5D Raycaster engine][herrecito] 
+
+Uses code from [Castenstein][castenstein]
 
 
 [segdebug]: https://github.com/jacmoe/jawolf/raw/master/segdebug.jpg "Segment Debugging - textures cycled for each segment"
+[herrecito]: https://github.com/herrecito/engine "Herrecito's 2.5D Raycaster engine"
+[castenstein]: https://bytecode77.com/garage/software/castenstein "Castenstein"
