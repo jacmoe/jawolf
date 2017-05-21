@@ -80,27 +80,10 @@
 //      t0 = -----------------------------------
 //           v · (s.start - O) / |(s.start - O)|
 
-
-// Checks if mob will hit p.
-// If so, returns 1 and stores the distance and time to collision,
-// returns 0 otherwise.
-static int _check_point(Vector p, Mobile mob, double* distance, double* t0)
-{
-    double t = (G_Distance(mob.pos, p) - mob.radius) /
-        G_Dot(mob.vel, G_Normalize(G_Sub(p, mob.pos)));
-
-    if (t >= 0 && t <= 1) {
-        if (distance) {
-            *distance = G_Distance(mob.pos, p);
-        }
-        if (t0) {
-            *t0 = t;
-        }
-        return 1;
-    } else {
-        return 0;
-    }
-}
+// fwds
+static int _check_point(Vector p, Mobile mob, double* distance, double* t0);
+static void _collision_print(Collision c);
+static Mobile _move_once(Map* map, Mobile mob);
 
 
 int collision_check(Map* map, Mobile mob, Collision* collision)
@@ -189,33 +172,6 @@ int collision_check(Map* map, Mobile mob, Collision* collision)
     return collisions;
 }
 
-
-static Mobile _move_once(Map* map, Mobile mob)
-{
-    Collision c;
-    if (collision_check(map, mob, &c))
-    {
-        // Move all we can without colliding (a bit less)
-        if (!ISZERO(c.t0))
-        {
-            mob.pos = G_Sum(mob.pos, G_Scale(c.t0 - EPSILON, mob.vel));
-        }
-
-        // Calculate remaining velocity
-        Vector remaining_vel = G_Scale(1 - (ISZERO(c.t0) ? 0 : c.t0), mob.vel);
-        // Calculate tangent to the mob circle at the collision point
-        Vector tangent = G_Perpendicular(G_Sub(c.point, mob.pos));
-        // Project the remaining velocity over the tangent
-        mob.vel = G_Project(remaining_vel, tangent);
-    } else {
-        mob.pos = G_Sum(mob.pos, mob.vel);
-        mob.vel = (Vector){0, 0};
-    }
-
-    return mob;
-}
-
-
 #define DEPTH 3
 
 Mobile collision_move(Map* map, Mobile mob)
@@ -249,4 +205,50 @@ static void _collision_print(Collision c)
             c.mob.pos.x, c.mob.pos.y, G_Length(c.mob.vel), c.mob.radius,
             c.point.x, c.point.y);
     printf("\tWall: %p,\tt0: %.5f,\tdistance: %.5f\n", c.wall, c.t0, c.distance);
+}
+
+// Checks if mob will hit p.
+// If so, returns 1 and stores the distance and time to collision,
+// returns 0 otherwise.
+static int _check_point(Vector p, Mobile mob, double* distance, double* t0)
+{
+    double t = (G_Distance(mob.pos, p) - mob.radius) /
+               G_Dot(mob.vel, G_Normalize(G_Sub(p, mob.pos)));
+
+    if (t >= 0 && t <= 1) {
+        if (distance) {
+            *distance = G_Distance(mob.pos, p);
+        }
+        if (t0) {
+            *t0 = t;
+        }
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+static Mobile _move_once(Map* map, Mobile mob)
+{
+    Collision c;
+    if (collision_check(map, mob, &c))
+    {
+        // Move all we can without colliding (a bit less)
+        if (!ISZERO(c.t0))
+        {
+            mob.pos = G_Sum(mob.pos, G_Scale(c.t0 - EPSILON, mob.vel));
+        }
+
+        // Calculate remaining velocity
+        Vector remaining_vel = G_Scale(1 - (ISZERO(c.t0) ? 0 : c.t0), mob.vel);
+        // Calculate tangent to the mob circle at the collision point
+        Vector tangent = G_Perpendicular(G_Sub(c.point, mob.pos));
+        // Project the remaining velocity over the tangent
+        mob.vel = G_Project(remaining_vel, tangent);
+    } else {
+        mob.pos = G_Sum(mob.pos, mob.vel);
+        mob.vel = (Vector){0, 0};
+    }
+
+    return mob;
 }
