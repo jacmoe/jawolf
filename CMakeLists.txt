@@ -64,7 +64,7 @@ set(Sources
     src/map.c
     src/map.h
     src/main.c
-)
+        src/block.h src/block.c src/block_map.h src/block_map.c)
 
 add_executable(${TARGET_NAME}
     ${Sources}
