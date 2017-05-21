@@ -29,7 +29,7 @@ Game game;
 
 #define FOV DEG2RAD(75)                          // Horizontal Field of View
 #define NEAR 1                                   // Near clip plane distance
-#define FAR 200                                  // Used to dim light
+#define FAR 300                                  // Used to dim light
 #define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
 #define WALLHEIGHT 64
 #define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
@@ -51,6 +51,7 @@ void InitGame()
     //game.map = M_Load("assets/levels/level.map");
     game.map = M_Import("assets/levels/text.map");
     game.player.pos = (Vector){game.map->player_x, game.map->player_y};
+    game.player.forward = G_Rotate(game.player.forward, DEG2RAD(90));
     game.keymap = GetDefaultKeyMap();
 }
 
@@ -77,7 +78,7 @@ static Buffer *get_texture(SpriteSheet textures, int idx)
 
 uint32_t DrawPOV(Scene *sce, Buffer *buf)
 {
-    uint32_t start = 1000 * glfwGetTime();//S_GetTime();
+    uint32_t start = (uint32_t)1000 * glfwGetTime();//S_GetTime();
 
     for (int x = 0; x < buf->width; x++)
     {
