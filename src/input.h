@@ -43,9 +43,9 @@ typedef struct KeyMap
     KeyBind* binds;
 } KeyMap;
 
-void PostEvent(KeyEvent kev);
-uint32_t ProcessInput();
+void input_post_event(KeyEvent kev);
+uint32_t input_process();
 
-void KeyCB(GLFWwindow* window, int key, int scancode, int action, int mods);
+void input_key_cb(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 #endif // JAWOLF_INPUT_H

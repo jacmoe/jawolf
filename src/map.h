@@ -54,8 +54,8 @@ typedef struct Scene {
 } Scene;
 
 
-Map* M_Load(const char* path);
-Map* M_Import(const char* path);
+Map* map_load(const char* path);
+Map* map_import(const char* path);
 
 
 #endif // JAWOLF_MAP_H

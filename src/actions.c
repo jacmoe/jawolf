@@ -17,12 +17,12 @@
 #include "game.h"
 #include "input.h"
 
-static void Action_Quit(KeyEvent kev)
+static void _action_quit(KeyEvent kev)
 {
     glfwSetWindowShouldClose(game.window, 1);
 }
 
-static void Action_Forward(KeyEvent kev)
+static void _action_forwards(KeyEvent kev)
 {
     if (kev.action == GLFW_PRESS)
     {
@@ -34,7 +34,7 @@ static void Action_Forward(KeyEvent kev)
     }
 }
 
-static void Action_Backward(KeyEvent kev)
+static void _action_backwards(KeyEvent kev)
 {
     if (kev.action == GLFW_PRESS)
     {
@@ -46,7 +46,7 @@ static void Action_Backward(KeyEvent kev)
     }
 }
 
-static void Action_Strafe_Left(KeyEvent kev)
+static void _action_strafe_left(KeyEvent kev)
 {
     if (kev.action == GLFW_PRESS)
     {
@@ -58,7 +58,7 @@ static void Action_Strafe_Left(KeyEvent kev)
     }
 }
 
-static void Action_Strafe_Right(KeyEvent kev)
+static void _action_strafe_right(KeyEvent kev)
 {
     if (kev.action == GLFW_PRESS)
     {
@@ -70,7 +70,7 @@ static void Action_Strafe_Right(KeyEvent kev)
     }
 }
 
-static void Action_Turn_Left(KeyEvent kev)
+static void _action_turn_left(KeyEvent kev)
 {
     if (kev.action == GLFW_PRESS)
     {
@@ -82,7 +82,7 @@ static void Action_Turn_Left(KeyEvent kev)
     }
 }
 
-static void Action_Turn_Right(KeyEvent kev)
+static void _action_turn_right(KeyEvent kev)
 {
     if (kev.action == GLFW_PRESS)
     {
@@ -94,19 +94,19 @@ static void Action_Turn_Right(KeyEvent kev)
     }
 }
 
-KeyMap *GetDefaultKeyMap()
+KeyMap* actions_get_default_keymap()
 {
-    KeyMap *keymap = malloc(sizeof(KeyMap));
+    KeyMap* keymap = malloc(sizeof(KeyMap));
     keymap->numbinds = 7;
 
     keymap->binds = malloc(sizeof(KeyBind) * keymap->numbinds);
-    keymap->binds[0] = (KeyBind){GLFW_KEY_Q, Action_Quit};
-    keymap->binds[1] = (KeyBind){GLFW_KEY_W, Action_Forward};
-    keymap->binds[2] = (KeyBind){GLFW_KEY_S, Action_Backward};
-    keymap->binds[3] = (KeyBind){GLFW_KEY_LEFT, Action_Strafe_Left};
-    keymap->binds[4] = (KeyBind){GLFW_KEY_RIGHT, Action_Strafe_Right};
-    keymap->binds[5] = (KeyBind){GLFW_KEY_A, Action_Turn_Left};
-    keymap->binds[6] = (KeyBind){GLFW_KEY_D, Action_Turn_Right};
+    keymap->binds[0] = (KeyBind){GLFW_KEY_Q, _action_quit};
+    keymap->binds[1] = (KeyBind){GLFW_KEY_W, _action_forwards};
+    keymap->binds[2] = (KeyBind){GLFW_KEY_S, _action_backwards};
+    keymap->binds[3] = (KeyBind){GLFW_KEY_LEFT, _action_strafe_left};
+    keymap->binds[4] = (KeyBind){GLFW_KEY_RIGHT, _action_strafe_right};
+    keymap->binds[5] = (KeyBind){GLFW_KEY_A, _action_turn_left};
+    keymap->binds[6] = (KeyBind){GLFW_KEY_D, _action_turn_right};
 
     return keymap;
 }

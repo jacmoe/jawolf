@@ -84,7 +84,8 @@
 // Checks if mob will hit p.
 // If so, returns 1 and stores the distance and time to collision,
 // returns 0 otherwise.
-int CheckPoint(Vector p, Mobile mob, double *distance, double *t0) {
+static int _check_point(Vector p, Mobile mob, double* distance, double* t0)
+{
     double t = (G_Distance(mob.pos, p) - mob.radius) /
         G_Dot(mob.vel, G_Normalize(G_Sub(p, mob.pos)));
 
@@ -102,7 +103,8 @@ int CheckPoint(Vector p, Mobile mob, double *distance, double *t0) {
 }
 
 
-int Co_CheckCollision(Map *map, Mobile mob, Collision *collision) {
+int collision_check(Map* map, Mobile mob, Collision* collision)
+{
     double v = G_Length(mob.vel);
 
     if (ISZERO(v)) return 0;
@@ -150,7 +152,8 @@ int Co_CheckCollision(Map *map, Mobile mob, Collision *collision) {
         }
 
         // Check for collision against the start vertex.
-        if (CheckPoint(s.start, mob, &d, &t)) {
+        if (_check_point(s.start, mob, &d, &t))
+        {
             // We hit the start vertex.
             if (t < c.t0) {
                 collisions++;
@@ -163,9 +166,11 @@ int Co_CheckCollision(Map *map, Mobile mob, Collision *collision) {
         }
 
         // Check for collision against the end vertex.
-        if (CheckPoint(s.end, mob, &d, &t)) {
+        if (_check_point(s.end, mob, &d, &t))
+        {
             // We hit the end vertex.
-            if (t < c.t0) {
+            if (t < c.t0)
+            {
                 collisions++;
                 c.point = s.end;
                 c.t0 = t;
@@ -176,7 +181,8 @@ int Co_CheckCollision(Map *map, Mobile mob, Collision *collision) {
         }
     }
 
-    if (collisions && collision) {
+    if (collisions && collision)
+    {
         *collision = c;
     }
 
@@ -184,11 +190,14 @@ int Co_CheckCollision(Map *map, Mobile mob, Collision *collision) {
 }
 
 
-Mobile MoveOnce(Map *map, Mobile mob) {
+static Mobile _move_once(Map* map, Mobile mob)
+{
     Collision c;
-    if (Co_CheckCollision(map, mob, &c)) {
+    if (collision_check(map, mob, &c))
+    {
         // Move all we can without colliding (a bit less)
-        if (!ISZERO(c.t0)) {
+        if (!ISZERO(c.t0))
+        {
             mob.pos = G_Sum(mob.pos, G_Scale(c.t0 - EPSILON, mob.vel));
         }
 
@@ -209,10 +218,12 @@ Mobile MoveOnce(Map *map, Mobile mob) {
 
 #define DEPTH 3
 
-Mobile Co_Move(Map *map, Mobile mob) {
+Mobile collision_move(Map* map, Mobile mob)
+{
     Vector orig_vel = mob.vel;
 
-    for (int d = 0; d < DEPTH; d++) {
+    for (int d = 0; d < DEPTH; d++)
+    {
         if (ISZERO(G_Length(mob.vel))) return mob;
 
         // Return if the new velocity is against the original velocity.
@@ -224,14 +235,15 @@ Mobile Co_Move(Map *map, Mobile mob) {
         // But this hack is pretty OK.
         if (G_Dot(orig_vel, mob.vel) < 0) return mob;
 
-        mob = MoveOnce(map, mob);
+        mob = _move_once(map, mob);
     }
 
     return mob;
 }
 
 
-void PrintCollision(Collision c) {
+static void _collision_print(Collision c)
+{
     printf("Collision detected:\n");
     printf("\t[pos: (%.2f, %.2f), vel: %.2f, r: %.2f] -> (%.2f, %.2f)\n",
             c.mob.pos.x, c.mob.pos.y, G_Length(c.mob.vel), c.mob.radius,

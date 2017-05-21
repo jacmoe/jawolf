@@ -54,11 +54,11 @@ typedef struct Game
 
 extern Game game;
 
-void InitGame();
-void EndGame();
-uint32_t DrawPOV(Scene* sce, Buffer* buf);
-Scene GetScene();
-Command BuildCommand();
-void RunCommand(Command cmd);
+void game_init();
+void game_end();
+uint32_t game_draw_pov(Scene* sce, Buffer* buf);
+Scene game_get_scene();
+Command game_build_command();
+void game_run_command(Command cmd);
 
 #endif // JAWOLF_GAME_H

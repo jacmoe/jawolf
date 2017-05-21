@@ -17,6 +17,6 @@
 
 #include "input.h"
 
-KeyMap *GetDefaultKeyMap();
+KeyMap* actions_get_default_keymap();
 
 #endif // JAWOLF_ACTIONS_H

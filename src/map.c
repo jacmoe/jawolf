@@ -33,10 +33,10 @@ Map *CreateEmptyMap() {
 }
 
 
-Map *M_Load(const char *path) {
-    FILE *f = fopen(path, "r");
+Map* map_load(const char *path) {
+    FILE* f = fopen(path, "r");
 
-    Map *map = CreateEmptyMap();
+    Map* map = CreateEmptyMap();
 
     Segment seg;
     for (int i = 0;
@@ -53,7 +53,7 @@ Map *M_Load(const char *path) {
     return map;
 }
 
-Map* M_Import(const char* path)
+Map* map_import(const char* path)
 {
     FILE *f = fopen(path, "rt");
 

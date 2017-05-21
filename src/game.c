@@ -36,31 +36,31 @@ Game game;
 
 #define SPEED 6
 
-void InitGame()
+void game_init()
 {
     nasl_graphics_init(WIDTH, HEIGHT, "Jawolf test", 0, 3);
     game.window = nasl_graphics_get_window();
     glfwSwapInterval(1);
-    glfwSetKeyCallback(game.window, KeyCB);
+    glfwSetKeyCallback(game.window, input_key_cb);
     game.buffer = nasl_buffer_create(WIDTH, HEIGHT);
 
     game.player.vel = (Vector){0, 0};
     game.player.forward = (Vector){1, 0};
     game.player.radius = 8;
 
-    //game.map = M_Load("assets/levels/level.map");
-    game.map = M_Import("assets/levels/text.map");
+    //game.map = map_load("assets/levels/level.map");
+    game.map = map_import("assets/levels/text.map");
     game.player.pos = (Vector){game.map->player_x, game.map->player_y};
     game.player.forward = G_Rotate(game.player.forward, DEG2RAD(90));
-    game.keymap = GetDefaultKeyMap();
+    game.keymap = actions_get_default_keymap();
 }
 
-void EndGame()
+void game_end()
 {
     glfwTerminate();
 }
 
-Scene GetScene()
+Scene game_get_scene()
 {
     Scene scene = {
         .pov = &game.player,
@@ -69,14 +69,14 @@ Scene GetScene()
     return scene;
 }
 
-static Buffer *get_texture(SpriteSheet textures, int idx)
+static Buffer* get_texture(SpriteSheet textures, int idx)
 {
     int col = idx % textures.cols;
     int row = idx / textures.cols;
     return nasl_sprite_get(textures, row, col);
 }
 
-uint32_t DrawPOV(Scene *sce, Buffer *buf)
+uint32_t game_draw_pov(Scene *sce, Buffer *buf)
 {
     uint32_t start = (uint32_t)1000 * glfwGetTime();//S_GetTime();
 
@@ -178,7 +178,7 @@ uint32_t DrawPOV(Scene *sce, Buffer *buf)
 }
 
 
-Command BuildCommand()
+Command game_build_command()
 {
     Command cmd;
 
@@ -243,9 +243,9 @@ Command BuildCommand()
     return cmd;
 }
 
-void RunCommand(Command cmd)
+void game_run_command(Command cmd)
 {
     game.player.forward = G_Rotate(game.player.forward, cmd.turn);
     game.player.vel = cmd.velocity;
-    game.player.pos = Co_Move(game.map, game.player).pos;
+    game.player.pos = collision_move(game.map, game.player).pos;
 }

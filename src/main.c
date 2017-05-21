@@ -16,18 +16,18 @@
 #include "game.h"
 
 int main() {
-    InitGame();
+    game_init();
 
     while (!glfwWindowShouldClose(game.window)) {
 
-        Scene scene = GetScene();
-        DrawPOV(&scene, game.buffer);
-        ProcessInput();
+        Scene scene = game_get_scene();
+        game_draw_pov(&scene, game.buffer);
+        input_process();
         nasl_graphics_render(game.buffer);
 
         glfwSwapBuffers(game.window);
 
     }
 
-    EndGame();
+    game_end();
 }

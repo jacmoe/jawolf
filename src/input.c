@@ -22,7 +22,7 @@
 #include "game.h"
 #include "input.h"
 
-void DispatchEvent(KeyEvent kev)
+static void _dispatch_event(KeyEvent kev)
 {
     for (int i = 0; i < game.keymap->numbinds; i++)
     {
@@ -36,21 +36,21 @@ void DispatchEvent(KeyEvent kev)
     }
 }
 
-uint32_t ProcessInput()
+uint32_t input_process()
 {
     uint32_t start = 1000 * glfwGetTime();//S_GetTime();
 
     glfwPollEvents();
 
-    Command cmd = BuildCommand();
-    RunCommand(cmd);
+    Command cmd = game_build_command();
+    game_run_command(cmd);
 
     return /*S_GetTime()*/ 1000 * glfwGetTime() - start;
 }
 
-void KeyCB(GLFWwindow *window, int key, int scancode, int action, int mods)
+void input_key_cb(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     KeyEvent kev = {key, action, mods};
 
-    DispatchEvent(kev);
+    _dispatch_event(kev);
 }
