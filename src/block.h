@@ -15,5 +15,17 @@
 #ifndef JAWOLF_BLOCK_H
 #define JAWOLF_BLOCK_H
 
+#include "texture.h"
+
+typedef struct Block
+{
+    int wall;
+    Texture* BlockTexture;
+    Texture* CeilingTexture;
+
+} Block;
+
+Block* block_create(int wall, Texture* blockTexture, Texture* ceilingTexture);
+void block_destroy(Block* block);
 
 #endif //JAWOLF_BLOCK_H

@@ -25,9 +25,9 @@ Map *CreateEmptyMap() {
 
     map->walls = NULL;
     map->numwalls = 0;
-    map->floortex = 10;
+    map->floortex = 2;
     map->ceiltex = 5;
-    map->textures = nasl_sprite_load("assets/textures/sjswalls2.bmp", 4, 3);
+    map->textures = nasl_sprite_load("assets/textures/walls_128.png", 3, 4);
 
     return map;
 }
@@ -69,8 +69,8 @@ Map* map_import(const char* path)
     fclose(f);
 
     float x_pos, y_pos = 0;
-    float scale = 64.0;
-    float grid_width = 64.0;
+    float scale = 128.0;//64.0;
+    float grid_width = 128.0;//64.0;
 
     int wall_count = 0;
 

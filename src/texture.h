@@ -12,16 +12,18 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#include <stdlib.h> // malloc
-#include "block.h"
+#ifndef JAWOLF_TEXTURE_H
+#define JAWOLF_TEXTURE_H
 
-Block* block_create(int wall, Texture* blockTexture, Texture* ceilingTexture)
-{
-    Block* block = malloc(sizeof(Block));
-    return block;
-}
+#include <stdint.h>
+#include "nasl_buffer.h"
 
-void block_destroy(Block* block)
+typedef struct Texture
 {
-    free(block);
-}
+    int size;
+    int size_exponent;
+    Buffer* buffer;
+    uint32_t avg_color;
+} Texture;
+
+#endif //JAWOLF_TEXTURE_H

@@ -29,9 +29,9 @@ Game game;
 
 #define FOV DEG2RAD(75)                          // Horizontal Field of View
 #define NEAR 1                                   // Near clip plane distance
-#define FAR 300                                  // Used to dim light
+#define FAR 150                                  // Used to dim light
 #define VIEW(w) (((w) / 2.0) / (tan(FOV / 2.0))) // Viewplane distance
-#define WALLHEIGHT 64
+#define WALLHEIGHT 128
 #define POVHEIGHT (WALLHEIGHT / 2)  // Must be half the wall height.
 
 #define SPEED 6

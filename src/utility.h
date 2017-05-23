@@ -12,16 +12,7 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#include <stdlib.h> // malloc
-#include "block.h"
+#ifndef JAWOLF_UTILITY_H
+#define JAWOLF_UTILITY_H
 
-Block* block_create(int wall, Texture* blockTexture, Texture* ceilingTexture)
-{
-    Block* block = malloc(sizeof(Block));
-    return block;
-}
-
-void block_destroy(Block* block)
-{
-    free(block);
-}
+#endif //JAWOLF_UTILITY_H

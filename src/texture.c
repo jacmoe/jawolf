@@ -12,16 +12,4 @@
 *   Copyright 2016 - 2017 Jacob Moen
 *
 */
-#include <stdlib.h> // malloc
-#include "block.h"
-
-Block* block_create(int wall, Texture* blockTexture, Texture* ceilingTexture)
-{
-    Block* block = malloc(sizeof(Block));
-    return block;
-}
-
-void block_destroy(Block* block)
-{
-    free(block);
-}
+#include "texture.h"
