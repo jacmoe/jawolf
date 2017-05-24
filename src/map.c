@@ -16,9 +16,7 @@
 #include <stdlib.h>
 
 #include "map.h"
-#include "nasl_dbg.h"
-#include "nasl_geometry.h"
-#include "nasl_image.h"
+#include "game.h"
 
 Map *CreateEmptyMap() {
     Map *map = malloc(sizeof(struct Map));
