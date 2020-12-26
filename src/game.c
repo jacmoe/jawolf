@@ -40,6 +40,7 @@ void game_init()
 {
     nasl_graphics_init(WIDTH, HEIGHT, "Jawolf test", 0, 3);
     game.window = nasl_graphics_get_window();
+    //glViewport(0, 0, WIDTH, HEIGHT);
     glfwSwapInterval(1);
     glfwSetKeyCallback(game.window, input_key_cb);
     game.buffer = nasl_buffer_create(WIDTH, HEIGHT);
@@ -48,8 +49,8 @@ void game_init()
     game.player.forward = (Vector){1, 0};
     game.player.radius = 8;
 
-    //game.map = map_load("assets/levels/level.map");
-    game.map = map_import("assets/levels/text.map");
+    game.map = map_load("assets/levels/level.map");
+    //game.map = map_import("assets/levels/text.map");
     game.player.pos = (Vector){game.map->player_x, game.map->player_y};
     game.player.forward = G_Rotate(game.player.forward, DEG2RAD(90));
     game.keymap = actions_get_default_keymap();
